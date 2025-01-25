@@ -2,8 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 
  npm install
+ 
 
  npm install lucide-react
+ 
+
+ npm install prisma @prisma/client
+ 
+
+ npx prisma init
+
+ 
+ npm install react-chartjs-2 chart.js
 
 
 
