@@ -9,10 +9,10 @@
   grid-template-areas:
     "title title"
     "chart legend";
-  grid-template-columns: minmax(400px, 1fr) auto;
-  gap: 24px;
-  padding: 32px;
-  max-width: 1200px;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  padding: 40px;
+  max-width: 1000px;
   margin: 0 auto;
   background: white;
   border-radius: 16px;
@@ -49,13 +49,13 @@
 /* สไตล์สำหรับ wrapper ของกราฟ */
 .pie-chart-wrapper {
   grid-area: chart;
-  width: 100%;
-  max-width: 500px;
-  aspect-ratio: 1;
+  width: 70vw; /* Responsive width to accommodate chart + legend */
+  height: 50vh; /* Responsive height */
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  aspect-ratio: 1;
+  max-width: 400px;
   transition: all 0.3s ease;
 }
 
@@ -67,11 +67,9 @@
   grid-area: legend;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 12px;
+  gap: 16px;
   padding: 24px;
-  height: fit-content;
-  margin: auto 0;
+  width: max-content;
   background: #f8fafc;
   border-radius: 12px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -176,11 +174,4 @@ input[type="date"] {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.Pie-chart-container {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  width: 100%;
 }

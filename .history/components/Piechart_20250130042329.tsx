@@ -42,25 +42,34 @@ const PieChart = ({
       legend: {
         display: false
       },
+      tooltip: {
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        titleColor: '#1a1a1a',
+        titleFont: { size: 14, weight: 'bold' },
+        bodyColor: '#64748b',
+        bodyFont: { size: 13 },
+        padding: 12,
+        borderColor: '#e2e8f0',
+        borderWidth: 1,
+        callbacks: {
+          label: (context: any) => {
+            const dataItem = data[context.dataIndex];
+            return `${dataItem.rating} ดาว: ${dataItem.percentage.toFixed(1)}% (${dataItem.count} reviews)`;
+          }
+        }
+      },
       datalabels: {
         color: '#fff',
-        font: { size: 14, weight: 'bold' },
-        formatter: (value: number) => value.toFixed(1) + '%',
-        anchor: 'center',
-        align: 'center',
-        offset: 0
+        font: { size: 14 },
+        formatter: (value: number) => value.toFixed(1) + '%'
       }
     },
-    maintainAspectRatio: true,
-    responsive: true,
-    layout: {
-      padding: 20
-    }
+    maintainAspectRatio: false,
+    responsive: true
   };
 
   return (
     <div className="PieChart">
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       <h2 className="pie-chart-title">
         Reviews for {new Date(selectedDate).toLocaleDateString()}
       </h2>
