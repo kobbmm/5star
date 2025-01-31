@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 
 ## Getting Started
-'''Bash
+
 First, run the development server:
 
 npm install
@@ -18,6 +18,13 @@ npm install prisma @prisma/client
 npx prisma init
 
 npm install react-chartjs-2 chart.js
+
+
+
+
+
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
