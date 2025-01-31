@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PieChart from "../components/Piechart";
+import PieChart from "@/components/Piechart/PieChart"
+import { ChartDataItem } from "@/types";
+
 
 const Home: React.FC = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
@@ -22,7 +24,7 @@ const Home: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/Chart?date=${selectedDate}`);
+        const res = await fetch(`/api/chart?date=${selectedDate}`);
         if (!res.ok) {
           throw new Error(await res.text());
         }
