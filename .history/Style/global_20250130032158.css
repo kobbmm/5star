@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pie Chart */
+
+.PieChart {
+  display: grid;
+  grid-template-areas:
+    "pie-chart-title pie-chart-title"
+    "label  pie-chart";
+  text-align: center;
+  font-family: serif;
+  height: 100vh;
+  padding: 5% 0 0 0;
+}
+
+/* ตั้งค่าหลักของ container */
+.pie-chart-container {
+  display: grid;
+  grid-template-areas:
+    ""
+    "label  pie-chart";
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: serif;
+}
+
+/* สไตล์สำหรับ title */
+.pie-chart-title {
+  grid-area: pie-chart-title;
+  color: #8b0000;
+  font-size: 5rem;
+  
+}
+
+/* สไตล์สำหรับ loading text */
+.loading-text {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* สไตล์สำหรับ wrapper ของกราฟ */
+.pie-chart-wrapper {
+  grid-area: pie-chart;
+  width: 600px; /* Fixed width to accommodate chart + legend */
+  height: 400px;
+}
+
+/* Add specific legend styling */
+.pie-chart-wrapper canvas {
+  margin-left: 120px; /* Push chart right to make room for legend */
+}
+
+.label {
+  grid-area: label;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.legend-label {
+  color: #8B0000;
+  font-family: serif;
+  font-size: 12px;
+}

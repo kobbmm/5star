@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pie Chart */
+
+.PieChart {
+  display: grid;
+  grid-template-areas:
+    "pie-chart-title "
+    "PieChartContainer";
+  text-align: center;
+  font-family: serif;
+  min-height: 100vh;
+  padding: 5% 0 0 0;
+}
+
+/* Main settings for container */
+.PieChartContainer {
+  grid-area: PieChartContainer;
+  display: grid;
+  grid-template-areas:
+    "label pie-chart-wrapper";
+  text-align: center;
+  font-family: serif;
+}
+
+/* สไตล์สำหรับ title */
+.pie-chart-title {
+  grid-area: pie-chart-title;
+  color: #8b0000;
+  font-size: 5rem;
+  
+}
+
+/* สไตล์สำหรับ loading text */
+.loading-text {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* สไตล์สำหรับ wrapper ของกราฟ */
+.pie-chart-wrapper {
+  grid-area: pie-chart-wrapper;
+  width: 80vw; /* Responsive width to accommodate chart + legend */
+  height: 50vh; /* Responsive height */
+}
+
+/* Add specific legend styling */
+.pie-chart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-chart-wrapper canvas {
+  flex: 1;
+}
+
+.label {
+  grid-area: label;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  width: max-content;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  width: fit-content;
+  margin-bottom: 4px;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  color: #8B0000;
+  font-family: serif;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}

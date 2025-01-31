@@ -1,0 +1,38 @@
+/* ตั้งค่าหลักของ container */
+.pie-chart-container {
+    text-align: center;
+    font-family: serif;
+    padding: 5rem;
+    margin: 20px;
+  }
+  
+  /* สไตล์สำหรับ title */
+  .pie-chart-title {
+    color: #8b0000;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* สไตล์สำหรับ loading text */
+  .loading-text {
+    font-size: 18px;
+    color: #888;
+  }
+  
+  /* สไตล์สำหรับ wrapper ของกราฟ */
+  .pie-chart-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center; /* จัดให้อยู่ตรงกลาง */
+    align-items: center;    /* จัดให้อยู่ตรงกลาง */
+    position: relative;
+    height: 400px;
+    width: 400px;
+  }
+
+  .pie-chart-container .chartjs-legend {
+    margin-right: 60px; /* ระยะห่างระหว่าง label และ chart */
+  }
