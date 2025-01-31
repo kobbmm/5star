@@ -1,19 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 
- npm install
- 
-
- npm install lucide-react
- 
-
- npm install prisma @prisma/client
- 
-
- npx prisma init
-
- 
- npm install react-chartjs-2 chart.js
 
 
 
@@ -22,16 +9,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+npm install
 
+npm install lucide-react
+
+npm install prisma @prisma/client
+
+npx prisma init
+
+npm install react-chartjs-2 chart.js
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
