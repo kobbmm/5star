@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 
 ## Getting Started
-
+'''Bash
 First, run the development server:
 
 npm install
