@@ -1,40 +1,17 @@
+import { ChartDataItem, ApiResponse } from "@/types";
 import React, { useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export interface ChartData {
-  rating: number;
-  count: number;
-  percentage: number;
-  total: number;
-  date: string;
-}
-
-export type ApiResponse<T> = {
-  data: T;
-  status: number;
-  message: string;
-}
-
-interface ChartDataItem {
-  rating: number;
-  count: number;
-  percentage: number;
-  firstReview: string;
-  lastReview: string;
-}
-
-const PieChart = ({ 
-  data, 
-  isLoading, 
-  selectedDate 
-}: { 
-  data: ChartDataItem[]; 
+interface PieChartProps {
+  data: ChartDataItem[];
   isLoading: boolean;
   selectedDate: string;
-}) => {
+}
+
+const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) => {
   const chartRef = useRef<any>(null);
 
   useEffect(() => {

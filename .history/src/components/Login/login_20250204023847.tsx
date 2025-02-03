@@ -17,32 +17,20 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    // Input validation
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      setError("Invalid email format");
-      setLoading(false);
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      setLoading(false);
-      return;
-    }
-
     try {
+      // Add input validation
+      if (!formData.email || !formData.password) {
+        throw new Error("Please fill in all fields");
+      }
+
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest", // CSRF protection
-          "X-CSRF-Token": await getCSRFToken(),
+          "X-Requested-With": "XMLHttpRequest" // CSRF protection
         },
         credentials: 'include', // for cookies
-        body: JSON.stringify({
-          email: formData.email.trim(),
-          password: formData.password
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -55,8 +43,7 @@ export default function Login() {
       setFormData({ email: "", password: "" });
       router.push("/dashboard");
     } catch (err) {
-      console.error("Login error:", err);
-      setError("Authentication failed. Please try again.");
+      setError(err instanceof Error ? err.message : "Invalid email or password");
     } finally {
       setLoading(false);
     }

@@ -1,22 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { rateLimit } from "@/lib/rate-limit";
+
+// Initialize Prisma
+const prisma = new PrismaClient();
+
+// Rate limiter: 100 requests per minute
+const limiter = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500
+});
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-export interface ChartData {
-  rating: number;
-  count: number;
-  percentage: number;
-  total: number;
-  date: string;
-}
-
-export type ApiResponse<T> = {
-  data: T;
-  status: number;
-  message: string;
-}
 
 interface ChartDataItem {
   rating: number;
@@ -35,31 +33,6 @@ const PieChart = ({
   isLoading: boolean;
   selectedDate: string;
 }) => {
-  const chartRef = useRef<any>(null);
-
-  useEffect(() => {
-    // Cleanup on unmount
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, []);
-
-  // Add error boundary
-  if (isLoading) {
-    return <div className="loading-spinner">Loading...</div>;
-  }
-
-  if (!Array.isArray(data) || data.length === 0) {
-    return <div className="no-data">ไม่พบข้อมูลสำหรับวันที่เลือก</div>;
-  }
-
-  const total = data.reduce((sum, item) => sum + item.count, 0);
-  if (total === 0) {
-    return <div className="no-data">ไม่มีรีวิวในวันที่เลือก</div>;
-  }
-
   const chartData = {
     labels: ["1 ดาว", "2 ดาว", "3 ดาว", "4 ดาว", "5 ดาว"],
     datasets: [{
@@ -80,17 +53,6 @@ const PieChart = ({
       legend: {
         display: false
       },
-      tooltip: {
-        enabled: true,
-        mode: 'nearest',
-        callbacks: {
-          label: function(context: any) {
-            const label = context.label || '';
-            const value = context.raw || 0;
-            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} reviews)`;
-          }
-        }
-      },
       datalabels: {
         color: '#fff',
         font: { size: 14, weight: 'bold' },
@@ -100,7 +62,7 @@ const PieChart = ({
         offset: 0
       }
     },
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     responsive: true,
     layout: {
       padding: 20
@@ -131,7 +93,7 @@ const PieChart = ({
           ))}
         </div>
         <div className="pie-chart-wrapper">
-          <Pie ref={chartRef} data={chartData} options={options} />
+          <Pie data={chartData} options={options} />
         </div>
       </div>
     </div>
@@ -139,3 +101,70 @@ const PieChart = ({
 };
 
 export default PieChart;
+
+export async function GET(request: Request) {
+  try {
+    // Rate limiting
+    await limiter.check(5, "CACHE_TOKEN");
+
+    // Get and validate date parameter
+    const { searchParams } = new URL(request.url);
+    const date = searchParams.get("date");
+    
+    if (!date || !isValidDate(date)) {
+      return NextResponse.json(
+        { error: "Invalid date parameter" },
+        { status: 400 }
+      );
+    }
+
+    // Query database
+    const startDate = new Date(date);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 1);
+
+    const reviews = await prisma.review.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate
+        }
+      },
+      select: {
+        rating: true,
+        comment: true
+      }
+    });
+
+    // Process data
+    const results = processReviewData(reviews);
+
+    return NextResponse.json(results);
+
+  } catch (error) {
+    console.error("[Chart API Error]:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+function isValidDate(dateString: string): boolean {
+  const date = new Date(dateString);
+  return date instanceof Date && !isNaN(date.getTime());
+}
+
+function processReviewData(reviews: any[]) {
+  const total = reviews.length;
+  return Array(5).fill(null).map((_, i) => {
+    const rating = i + 1;
+    const ratingReviews = reviews.filter(r => r.rating === rating);
+    return {
+      rating,
+      count: ratingReviews.length,
+      percentage: total ? (ratingReviews.length / total) * 100 : 0,
+      reviews: ratingReviews
+    };
+  });
+}

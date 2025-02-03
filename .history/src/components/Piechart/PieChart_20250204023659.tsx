@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
@@ -35,31 +35,6 @@ const PieChart = ({
   isLoading: boolean;
   selectedDate: string;
 }) => {
-  const chartRef = useRef<any>(null);
-
-  useEffect(() => {
-    // Cleanup on unmount
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, []);
-
-  // Add error boundary
-  if (isLoading) {
-    return <div className="loading-spinner">Loading...</div>;
-  }
-
-  if (!Array.isArray(data) || data.length === 0) {
-    return <div className="no-data">ไม่พบข้อมูลสำหรับวันที่เลือก</div>;
-  }
-
-  const total = data.reduce((sum, item) => sum + item.count, 0);
-  if (total === 0) {
-    return <div className="no-data">ไม่มีรีวิวในวันที่เลือก</div>;
-  }
-
   const chartData = {
     labels: ["1 ดาว", "2 ดาว", "3 ดาว", "4 ดาว", "5 ดาว"],
     datasets: [{
@@ -81,13 +56,11 @@ const PieChart = ({
         display: false
       },
       tooltip: {
-        enabled: true,
-        mode: 'nearest',
         callbacks: {
           label: function(context: any) {
             const label = context.label || '';
             const value = context.raw || 0;
-            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} reviews)`;
+            return `${label}: ${value.toFixed(1)}%`;
           }
         }
       },
@@ -100,7 +73,7 @@ const PieChart = ({
         offset: 0
       }
     },
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     responsive: true,
     layout: {
       padding: 20
@@ -131,7 +104,7 @@ const PieChart = ({
           ))}
         </div>
         <div className="pie-chart-wrapper">
-          <Pie ref={chartRef} data={chartData} options={options} />
+          <Pie data={chartData} options={options} />
         </div>
       </div>
     </div>
