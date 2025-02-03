@@ -39,40 +39,16 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
 
   // Add error boundary
   if (isLoading) {
-    return <Loading />;
+    return <div className="loading-spinner">Loading...</div>;
   }
 
   if (!Array.isArray(data) || data.length === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">📊</div>
-        <h3 className="empty-state-title">ไม่พบข้อมูล</h3>
-        <p className="empty-state-description">
-          ไม่พบข้อมูลรีวิวสำหรับวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่พบข้อมูลสำหรับวันที่เลือก</div>;
   }
 
   const total = data.reduce((sum, item) => sum + item.count, 0);
   if (total === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">⭐</div>
-        <h3 className="empty-state-title">ยังไม่มีรีวิว</h3>
-        <p className="empty-state-description">
-          ยังไม่มีการรีวิวในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่มีรีวิวในวันที่เลือก</div>;
   }
 
   const chartData = {

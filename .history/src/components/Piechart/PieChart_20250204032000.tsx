@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import type { ChartDataItem } from "@/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -19,13 +18,23 @@ export type ApiResponse<T> = {
   message: string;
 }
 
-interface PieChartProps {
-  data: ChartDataItem[];
-  isLoading: boolean;
-  selectedDate: string;
+interface ChartDataItem {
+  rating: number;
+  count: number;
+  percentage: number;
+  firstReview: string;
+  lastReview: string;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) => {
+const PieChart = ({ 
+  data, 
+  isLoading, 
+  selectedDate 
+}: { 
+  data: ChartDataItem[]; 
+  isLoading: boolean;
+  selectedDate: string;
+}) => {
   const chartRef = useRef<any>(null);
 
   useEffect(() => {
@@ -39,40 +48,16 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
 
   // Add error boundary
   if (isLoading) {
-    return <Loading />;
+    return <div className="loading-spinner">Loading...</div>;
   }
 
   if (!Array.isArray(data) || data.length === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">📊</div>
-        <h3 className="empty-state-title">ไม่พบข้อมูล</h3>
-        <p className="empty-state-description">
-          ไม่พบข้อมูลรีวิวสำหรับวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่พบข้อมูลสำหรับวันที่เลือก</div>;
   }
 
   const total = data.reduce((sum, item) => sum + item.count, 0);
   if (total === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">⭐</div>
-        <h3 className="empty-state-title">ยังไม่มีรีวิว</h3>
-        <p className="empty-state-description">
-          ยังไม่มีการรีวิวในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่มีรีวิวในวันที่เลือก</div>;
   }
 
   const chartData = {
@@ -104,29 +89,42 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
         display: false
       },
       tooltip: {
-        enabled: true,
-        mode: 'nearest',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        titleColor: '#1a1a1a',
+        bodyColor: '#1a1a1a',
+        bodyFont: {
+          family: 'Inter'
+        },
+        padding: 12,
+        boxWidth: 10,
+        boxHeight: 10,
+        boxPadding: 3,
+        usePointStyle: true,
         callbacks: {
           label: function(context: any) {
             const label = context.label || '';
             const value = context.raw || 0;
-            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} reviews)`;
+            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} รีวิว)`;
           }
         }
-      },
-      datalabels: {
-        color: '#fff',
-        font: { size: 14, weight: 'bold' },
-        formatter: (value: number) => value.toFixed(1) + '%',
-        anchor: 'center',
-        align: 'center',
-        offset: 0
       }
     },
     maintainAspectRatio: false,
     responsive: true,
+    cutout: '60%',
+    radius: '90%',
     layout: {
-      padding: 20
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20
+      }
+    },
+    animation: {
+      animateScale: true,
+      animateRotate: true,
+      duration: 1000
     }
   };
 

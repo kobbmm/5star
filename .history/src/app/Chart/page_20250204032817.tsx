@@ -99,11 +99,7 @@ const ChartPage: React.FC = () => {
         {loading ? (
           <Loading />
         ) : error ? (
-          <div className="error-message">
-            <div className="error-message-icon">⚠️</div>
-            <h3 className="error-message-title">เกิดข้อผิดพลาด</h3>
-            <p className="error-message-description">{error}</p>
-          </div>
+          <div className="error-message">{error}</div>
         ) : (
           <PieChart 
             data={chartData} 
