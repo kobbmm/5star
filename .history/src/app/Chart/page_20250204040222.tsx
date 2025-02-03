@@ -69,54 +69,49 @@ const ChartPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="chart-grid">
-        <div className="date-picker-container">
-          <button 
-            onClick={() => changeDate(-1)} 
-            className="nav-button"
-            disabled={loading}
-          >
-            <span className="nav-arrow">←</span>
-            <span className="nav-text">วันก่อนหน้า</span>
-          </button>
+      <div className="date-picker-container">
+        <button 
+          onClick={() => changeDate(-1)} 
+          className="nav-button"
+          disabled={loading}
+        >
+          <span className="nav-arrow">←</span>
+          <span className="nav-text">ก่อนหน้า</span>
+        </button>
 
-          <div className="calendar-wrapper">
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="date-picker"
-              disabled={loading}
-            />
-            <span className="calendar-icon">📅</span>
-          </div>
-
-          <button 
-            onClick={() => changeDate(1)} 
-            className="nav-button"
+        <div className="calendar-wrapper">
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="date-picker"
             disabled={loading}
-          >
-            <span className="nav-text">วันถัดไป</span>
-            <span className="nav-arrow">→</span>
-          </button>
+          />
+          <span className="calendar-icon">📅</span>
         </div>
 
-        <div className={`chart-container ${loading ? 'loading' : ''}`}>
-          {loading ? (
-            <Loading />
-          ) : error ? (
-            <div className="error-message">
-              <span className="error-icon">⚠️</span>
-              <p>{error}</p>
-            </div>
-          ) : (
-            <PieChart 
-              data={chartData} 
-              isLoading={loading} 
-              selectedDate={selectedDate} 
-            />
-          )}
-        </div>
+        <button 
+          onClick={() => changeDate(1)} 
+          className="nav-button"
+          disabled={loading}
+        >
+          <span className="nav-text">ถัดไป</span>
+          <span className="nav-arrow">→</span>
+        </button>
+      </div>
+
+      <div className={`chart-container ${loading ? 'loading' : ''}`}>
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <div className="error-message">{error}</div>
+        ) : (
+          <PieChart 
+            data={chartData} 
+            isLoading={loading} 
+            selectedDate={selectedDate} 
+          />
+        )}
       </div>
     </div>
   );
