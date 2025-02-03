@@ -2,54 +2,48 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { ApiResponse, ChartDataItem } from "@/types";
 import { headers } from "next/headers";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit } from '@/lib/rate-limit'
 
-// Create singleton instance with error handling
-let prisma: PrismaClient;
-
-try {
-  prisma = globalThis.prisma || new PrismaClient();
-  if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-} catch (error) {
-  console.error('Failed to initialize Prisma:', error);
-  prisma = new PrismaClient();
-}
+const prisma = new PrismaClient();
 
 // Add cache for 5 minutes
 export const revalidate = 300;
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 1 minute
-  uniqueTokenPerInterval: 1000
+  uniqueTokenPerInterval: 500
 });
 
 export async function GET(req: Request) {
   try {
-    // Verify Prisma connection
-    await prisma.$connect();
-    
-    // More lenient rate limiting (30 requests per minute)
-    const headersList = headers();
-    const ip = headersList.get('x-forwarded-for') || 'anonymous';
-    await limiter.check(30, ip); // Increased from 10 to 30
+    // Rate limiting check
+    await limiter.check(5, 'CACHE_TOKEN'); // 5 requests per minute
 
     const { searchParams } = new URL(req.url);
-    const dateStr = searchParams.get("date");
-    
-    if (!dateStr?.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    const date = searchParams.get("date");
+
+    if (!date) {
+      return NextResponse.json({
+        data: null,
+        status: 400,
+        message: "Date parameter is required",
+        error: "Missing date parameter"
+      }, { status: 400 });
+    }
+
+    const startDate = new Date(date);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 1);
+
+    // Validate date
+    if (isNaN(startDate.getTime())) {
       return NextResponse.json({
         data: null,
         status: 400,
         message: "Invalid date format",
-        error: "Date must be YYYY-MM-DD"
+        error: "Date must be in YYYY-MM-DD format"
       }, { status: 400 });
     }
-
-    const startDate = new Date(dateStr);
-    startDate.setHours(0, 0, 0, 0);
-    
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 1);
 
     const dailyReviews = await prisma.review.findMany({
       where: {
@@ -85,31 +79,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    // Handle Prisma-specific errors
-    if (error instanceof Error && error.message.includes('Prisma')) {
-      console.error('Prisma Error:', error);
-      return NextResponse.json({
-        data: null,
-        status: 500,
-        message: "Database connection error",
-        error: "Unable to connect to database"
-      }, { status: 500 });
-    }
-    
-    if (error instanceof Error && error.message === 'Rate limit exceeded') {
-      return NextResponse.json({
-        data: null,
-        status: 429,
-        message: "Too Many Requests",
-        error: "Please wait a minute before trying again"
-      }, { 
-        status: 429,
-        headers: {
-          'Retry-After': '60',
-          'X-RateLimit-Reset': String(Date.now() + 60000)
-        }
-      });
-    }
     console.error('Chart API Error:', error);
     const errorResponse: ApiResponse<null> = {
       data: null,
@@ -120,11 +89,5 @@ export async function GET(req: Request) {
         "An unexpected error occurred"
     };
     return NextResponse.json(errorResponse, { status: 500 });
-  } finally {
-    try {
-      await prisma.$disconnect();
-    } catch (e) {
-      console.error('Error disconnecting from database:', e);
-    }
   }
 }

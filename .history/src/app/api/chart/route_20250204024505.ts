@@ -4,34 +4,25 @@ import { ApiResponse, ChartDataItem } from "@/types";
 import { headers } from "next/headers";
 import { rateLimit } from "@/lib/rate-limit";
 
-// Create singleton instance with error handling
-let prisma: PrismaClient;
-
-try {
-  prisma = globalThis.prisma || new PrismaClient();
-  if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-} catch (error) {
-  console.error('Failed to initialize Prisma:', error);
-  prisma = new PrismaClient();
-}
+// Create singleton instance
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+const prisma = globalForPrisma.prisma || new PrismaClient()
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 // Add cache for 5 minutes
 export const revalidate = 300;
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 1 minute
-  uniqueTokenPerInterval: 1000
+  uniqueTokenPerInterval: 500
 });
 
 export async function GET(req: Request) {
   try {
-    // Verify Prisma connection
-    await prisma.$connect();
-    
-    // More lenient rate limiting (30 requests per minute)
+    // Apply rate limiting
     const headersList = headers();
     const ip = headersList.get('x-forwarded-for') || 'anonymous';
-    await limiter.check(30, ip); // Increased from 10 to 30
+    await limiter.check(10, ip); // 10 requests per minute per IP
 
     const { searchParams } = new URL(req.url);
     const dateStr = searchParams.get("date");
@@ -85,30 +76,13 @@ export async function GET(req: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    // Handle Prisma-specific errors
-    if (error instanceof Error && error.message.includes('Prisma')) {
-      console.error('Prisma Error:', error);
-      return NextResponse.json({
-        data: null,
-        status: 500,
-        message: "Database connection error",
-        error: "Unable to connect to database"
-      }, { status: 500 });
-    }
-    
     if (error instanceof Error && error.message === 'Rate limit exceeded') {
       return NextResponse.json({
         data: null,
         status: 429,
         message: "Too Many Requests",
-        error: "Please wait a minute before trying again"
-      }, { 
-        status: 429,
-        headers: {
-          'Retry-After': '60',
-          'X-RateLimit-Reset': String(Date.now() + 60000)
-        }
-      });
+        error: "Please try again later"
+      }, { status: 429 });
     }
     console.error('Chart API Error:', error);
     const errorResponse: ApiResponse<null> = {
@@ -121,10 +95,9 @@ export async function GET(req: Request) {
     };
     return NextResponse.json(errorResponse, { status: 500 });
   } finally {
-    try {
-      await prisma.$disconnect();
-    } catch (e) {
-      console.error('Error disconnecting from database:', e);
+    // Clean up if not production
+    if (process.env.NODE_ENV !== 'production') {
+      await prisma.$disconnect()
     }
   }
 }

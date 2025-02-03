@@ -13,20 +13,6 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export interface User {
-  id: number;
-  email: string;
-  role: 'ADMIN' | 'STAFF';
-}
-
-export interface Review {
-  id: number;
-  rating: number;
-  comment?: string;
-  date: Date;
-  userId?: number;
-}
-
 export interface Restaurant {
   id: number;
   name: string;
