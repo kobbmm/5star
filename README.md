@@ -21,6 +21,8 @@ npm install react-chartjs-2 chart.js
 
 npm install lru-cache
 
+npm install @prisma/client chart.js react-chartjs-2
+
 
 
 
