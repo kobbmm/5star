@@ -1,130 +1,43 @@
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { ApiResponse, ChartDataItem } from "@/types";
-import { headers } from "next/headers";
-import { rateLimit } from "@/lib/rate-limit";
 
-// Create singleton instance with error handling
-let prisma: PrismaClient;
+const prisma = new PrismaClient();
 
-try {
-  prisma = globalThis.prisma || new PrismaClient();
-  if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-} catch (error) {
-  console.error('Failed to initialize Prisma:', error);
-  prisma = new PrismaClient();
-}
-
-// Add cache for 5 minutes
-export const revalidate = 300;
-
-const limiter = rateLimit({
-  interval: 60 * 1000, // 1 minute
-  uniqueTokenPerInterval: 1000
-});
-
-export async function GET(req: Request) {
-  try {
-    // Verify Prisma connection
-    await prisma.$connect();
-    
-    // More lenient rate limiting (30 requests per minute)
-    const headersList = headers();
-    const ip = headersList.get('x-forwarded-for') || 'anonymous';
-    await limiter.check(30, ip); // Increased from 10 to 30
-
-    const { searchParams } = new URL(req.url);
-    const dateStr = searchParams.get("date");
-    
-    if (!dateStr?.match(/^\d{4}-\d{2}-\d{2}$/)) {
-      return NextResponse.json({
-        data: null,
-        status: 400,
-        message: "Invalid date format",
-        error: "Date must be YYYY-MM-DD"
-      }, { status: 400 });
-    }
-
-    const startDate = new Date(dateStr);
-    startDate.setHours(0, 0, 0, 0);
-    
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 1);
-
-    const dailyReviews = await prisma.review.findMany({
-      where: {
-        date: {
-          gte: startDate,
-          lt: endDate
-        }
-      },
-      orderBy: {
-        date: 'asc'
-      }
-    });
-
-    const total = dailyReviews.length;
-
-    const results: ChartDataItem[] = Array(5).fill(null).map((_, i) => {
-      const rating = i + 1;
-      const ratingReviews = dailyReviews.filter(r => r.rating === rating);
-      return {
-        rating,
-        count: ratingReviews.length,
-        percentage: total ? (ratingReviews.length / total) * 100 : 0,
-        firstReview: ratingReviews[0]?.date.toISOString() || '',
-        lastReview: ratingReviews[ratingReviews.length - 1]?.date.toISOString() || ''
-      };
-    });
-
-    const response: ApiResponse<ChartDataItem[]> = {
-      data: results,
-      status: 200,
-      message: "Success"
-    };
-
-    return NextResponse.json(response);
-  } catch (error) {
-    // Handle Prisma-specific errors
-    if (error instanceof Error && error.message.includes('Prisma')) {
-      console.error('Prisma Error:', error);
-      return NextResponse.json({
-        data: null,
-        status: 500,
-        message: "Database connection error",
-        error: "Unable to connect to database"
-      }, { status: 500 });
-    }
-    
-    if (error instanceof Error && error.message === 'Rate limit exceeded') {
-      return NextResponse.json({
-        data: null,
-        status: 429,
-        message: "Too Many Requests",
-        error: "Please wait a minute before trying again"
-      }, { 
-        status: 429,
-        headers: {
-          'Retry-After': '60',
-          'X-RateLimit-Reset': String(Date.now() + 60000)
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === "GET") {
+    try {
+      const date = req.query.date as string || new Date().toISOString().split('T')[0];
+      
+      // Get daily reviews
+      const dailyReviews = await prisma.review.findMany({
+        where: {
+          date: {
+            gte: new Date(date),
+            lt: new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000)
+          }
         }
       });
+
+      const total = dailyReviews.length;
+      
+      const results = Array(5).fill(null).map((_, i) => {
+        const rating = i + 1;
+        const ratingReviews = dailyReviews.filter(r => r.rating === rating);
+        return {
+          rating,
+          count: ratingReviews.length,
+          percentage: total ? (ratingReviews.length / total) * 100 : 0,
+          reviews: ratingReviews
+        };
+      });
+
+      res.status(200).json(results);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch chart data" });
     }
-    console.error('Chart API Error:', error);
-    const errorResponse: ApiResponse<null> = {
-      data: null,
-      status: 500,
-      message: "Internal server error",
-      error: process.env.NODE_ENV === 'development' ? 
-        (error instanceof Error ? error.message : "Unknown error") : 
-        "An unexpected error occurred"
-    };
-    return NextResponse.json(errorResponse, { status: 500 });
-  } finally {
-    try {
-      await prisma.$disconnect();
-    } catch (e) {
-      console.error('Error disconnecting from database:', e);
-    }
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
   }
 }
+
+export default handler;
