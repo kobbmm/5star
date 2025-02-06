@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import "../../app/Style/login.css"; // นำเข้าไฟล์ CSS
+import "../../app/Style/signup.css"; // นำเข้าไฟล์ CSS
 
-export default function Login() {
+export default function SignUp() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -19,7 +19,7 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -27,7 +27,7 @@ export default function Login() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Sign up failed");
       }
 
       router.push("/dashboard");
@@ -39,12 +39,12 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="login-title">Login</h2>
+    <div className="signup-container">
+      <form onSubmit={handleSubmit} className="signup-form">
+        <h2 className="signup-title">Sign Up</h2>
         
         {error && (
-          <div className="login-error">
+          <div className="signup-error">
             {error}
           </div>
         )}
@@ -54,7 +54,7 @@ export default function Login() {
           <input
             id="email"
             type="email"
-            className="login-input"
+            className="signup-input"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
@@ -66,7 +66,7 @@ export default function Login() {
           <input
             id="password"
             type="password"
-            className="login-input"
+            className="signup-input"
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
@@ -75,10 +75,10 @@ export default function Login() {
 
         <button
           type="submit"
-          className="login-button"
+          className="signup-button"
           disabled={loading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
     </div>
