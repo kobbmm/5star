@@ -1,0 +1,45 @@
+/* กล่อง Welcome */
+.welcome-section {
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  
+  /* กล่อง Verification */
+  .verification-section {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  
+  /* ปุ่ม Verify */
+  .verification-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4f46e5;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+  }
+  .verification-button:hover {
+    background-color: #4338ca;
+  }
+  
+  /* Input Field */
+  .verification-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.2rem;
+  }
+  .verification-input:focus {
+    border-color: #4f46e5;
+  }
+  

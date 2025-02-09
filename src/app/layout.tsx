@@ -3,6 +3,7 @@ import "./Style/global.css";
 import "./Style/welcome.css";
 import "./Style/login.css";
 import "./Style/signup.css";
+import "./Style/verification.css";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
