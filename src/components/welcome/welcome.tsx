@@ -1,43 +1,45 @@
-// filepath: /C:/Users/Topviewpoint/5star/src/components/welcome/welcome.tsx
 import React from "react";
 import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/welcome.css"; 
 
 const Welcome: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-6">
       {/* กล่องที่ 1: Welcome Section */}
-      <div className="bg-white shadow-lg rounded-xl p-6 text-center w-full max-w-md welcome-section">
-      <h1 className="text-white">Welcome to</h1>
-      <h2 className="text-primary">CLOUD & CRÈME</h2>
-      <p className="text-secondary">Your favourite foods delivered fast at your door.</p>
+      <div className="bg-white p-6 text-center w-full max-w-md welcome-section">
+        <h1 className="text-white text-[64px] font-montserrat font-bold text-left">Welcome to</h1>
+        <h2 className="text-primary text-[64px] font-aboreto font-normal text-left">CLOUD & CRÈME</h2>
+        <p className="text-secondary text-[24px] font-montserrat font-normal text-left">Your favourite foods delivered fast at your door.</p>
       </div>
 
       {/* กล่องที่ 2: Sign-in Section */}
-      <div className="bg-white shadow-lg rounded-xl p-6 mt-6 w-full max-w-md sign-in-section">
-        <p className="text-[64px] font-bold text-white">Sign in with</p>
+      <div className="bg-white p-6 mt-6 w-full max-w-md sign-in-section">
+        <p className="text-white text-32px font-montserrat font-bold text-center">Sign in with</p>
 
-        <div className="flex flex-col gap-3 mt-3">
-          <button className="flex items-center justify-center gap-3 w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-            <FaFacebook size={20} />
+        <div className="flex items-center gap-3 p-3 rounded-lg">
+          {/* ปุ่ม Facebook */}
+          <button className="flex items-center justify-center gap-2 w-full py-1 border rounded-lg text-white font-normal hover:bg-gray-200 transition">
+            <FaFacebook size={17} />
             <span>Facebook</span>
           </button>
 
-          <button className="flex items-center justify-center gap-3 w-full py-2 border rounded-lg text-gray-700 hover:bg-gray-200 transition">
-            <FcGoogle size={20} />
+          {/* ปุ่ม Google */}
+          <button className="flex items-center justify-center gap-2 w-full py-1 border rounded-lg shadow-lg text-white font-normal hover:bg-gray-200 transition">
+            <FaGoogle size={17} />
             <span>Google</span>
           </button>
         </div>
-        <button className="w-full py-2 mt-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
-          Start with email or phone
+
+        {/* ปุ่ม Start with email or phone */}
+        <button className="flex items-center justify-center gap-2 w-full py-2 border rounded-lg text-white font-normal hover:bg-gray-200 transition mt-4">
+          <span>Start with email or phone</span>
         </button>
 
-        <p className="text-center text-gray-600 mt-4">
-          Already have an account?{" "}
-          <a href="#" className="text-indigo-600 font-medium hover:underline">
-            Sign in
-          </a>
+        {/* ข้อความ Already have an account? */}
+        <p className="text-white font-normal text-sm mt-4 text-center">
+          Already have an account? 
+          <a href="#" className="text-primary font-normal hover:underline ml-1">Sign in</a>
         </p>
       </div>
     </div>

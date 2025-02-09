@@ -1,22 +1,78 @@
+/* filepath: /c:/Users/Topviewpoint/5star/src/app/Style/welcome.css */
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* สำหรับ Welcome Section */
+.welcome-section {
+    background: url('/food.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+/* กำหนดสีเพิ่มเติม */
+:root {
+    --background: #f0f0f0; /* ตัวอย่างสีพื้นหลัง */
+    --foreground: #333333; /* ตัวอย่างสีพื้นหน้า */
+    --white: #FFFFFF;
+    --primary: #AB3434;
+    --secondary: #979797;
+}
+
+/* กำหนดขนาดตัวอักษรเพิ่มเติม */
+.text-100px {
+    font-size: 100px;
+}
+
+.text-64px {
+    font-size: 64px;
+}
+
+.text-32px {
+    font-size: 32px;
+}
+
+/* กำหนดฟอนต์เพิ่มเติม */
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-aboreto {
+    font-family: 'Aboreto', cursive;
+}
+
+.font-thin {
+    font-weight: 300;
+}
+
+.font-normal {
+    font-weight: 400;
+}
+
+.font-bold {
+    font-weight: 700;
+}
 
 /* กล่องที่ 1: Welcome Section */
 .welcome-section {
     background-color: #ffffff00; 
-    padding: 1.5rem;
+    padding: 0.2rem;
     position: absolute; 
     left: 182px; 
-    top: 101px; 
+    top: 70px; 
     width: 100%;
-    max-width: 30rem; 
+    max-width: 40rem; 
 }
 
 /* กล่องที่ 2: Sign-in Section */
 .sign-in-section {
-    background-color: #ffffff;
-    padding: 1.5rem;
+    background-color: #0000007e;
+    padding: 2rem;
     position: absolute; 
-    left: 769px; 
-    top: 101px; 
+    left: 850px; 
+    top: 50%; 
+    transform: translateY(-50%);
     width: 100%;
-    max-width: 30rem;
+    max-width: 20rem;
 }

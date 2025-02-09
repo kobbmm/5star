@@ -17,10 +17,6 @@ export default {
         primary: "#AB3434",
         secondary: "#979797",
       },
-      fontSize: {
-        '64px': '64px',
-        '200px': '200px',
-      },
     },
   },
   plugins: [],
