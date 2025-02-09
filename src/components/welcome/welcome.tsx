@@ -29,9 +29,7 @@ const Welcome: React.FC = () => {
             <span>Google</span>
           </button>
         </div>
-
-        <p className="text-center text-gray-500 mt-4">or</p>
-
+        
         <button className="w-full py-2 mt-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
           Start with email or phone
         </button>
