@@ -40,6 +40,7 @@ export default function Login() {
 
   return (
     <div className="login-container">
+      <h1>Welcome</h1> {/* เพิ่มข้อความ Welcome */}
       <form onSubmit={handleSubmit} className="login-form">
         <h2 className="login-title">Login</h2>
         
