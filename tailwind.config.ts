@@ -1,3 +1,4 @@
+// filepath: /C:/Users/Topviewpoint/5star/tailwind.config.ts
 import type { Config } from "tailwindcss";
 
 export default {

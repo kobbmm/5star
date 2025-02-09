@@ -1,4 +1,4 @@
-
+/* filepath: /c:/Users/Topviewpoint/5star/src/app/Style/welcome.css */
 /* welcome.css */
 
 /* กล่องที่ 1: Welcome Section */
@@ -14,11 +14,11 @@
 
 /* กล่องที่ 2: Sign-in Section */
 .sign-in-section {
-    background-color: #00000000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 1rem;
+    background-color: #ffffff;
     padding: 1.5rem;
-    margin-top: 1.5rem;
+    position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
+    left: 769px; /* ตั้งตำแหน่งที่พิกัด x */
+    top: 101px;  /* ตั้งตำแหน่งที่พิกัด y */
     width: 100%;
     max-width: 30rem;
 }
