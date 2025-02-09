@@ -1,26 +1,17 @@
+import { FC } from 'react';
 import Link from 'next/link';
-import LogIn from '../components/logIn/login';
+import Image from '.../public/images/picturhead.png'
+import LogIn from '../components/login/login';
+import HeaderTop from '../components/Home/HeaderTop';
+import HeaderSection from '../components/Home/HeaderSection';
 
-export default function Home() {
+function Home() {
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8 text-center">5 Star Restaurant</h1>
-        
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Link 
-            href="/chart" 
-            className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-          >
-            <h2 className="text-2xl font-semibold mb-3">Analytics Dashboard →</h2>
-            <p className="text-gray-600">View restaurant performance and statistics</p>
-          </Link>
-          
-          {/* Add more menu items */}
-
-          <LogIn />
-        </div>
-      </div>
+      <HeaderTop />
+      <HeaderSection />
     </main>
   );
 }
+
+export default Home;
