@@ -44,9 +44,9 @@ export default function SignIn() {
       <div className="signin-box">
         {/* กล่องแรก Welcome */}
         <div className="bg-white shadow-lg rounded-xl p-6 text-center w-full max-w-md welcome-section">
-        <h1 className="text-[64px] font-bold text-white">Welcome to</h1>
-        <h2 className="text-[64px] font-bold text-primary">CLOUD & CRÈME</h2>
-        <p className="mt-2 text-secondary">Your favourite foods delivered fast at your door.</p>
+        <h1 className="text-white">Welcome to</h1>
+      <h2 className="text-primary">CLOUD & CRÈME</h2>
+      <p className="text-secondary">Your favourite foods delivered fast at your door.</p>
       </div>
 
         {/* กล่องที่สอง Sign-Up */}

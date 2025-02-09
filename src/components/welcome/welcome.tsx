@@ -9,9 +9,9 @@ const Welcome: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-6">
       {/* กล่องที่ 1: Welcome Section */}
       <div className="bg-white shadow-lg rounded-xl p-6 text-center w-full max-w-md welcome-section">
-        <h1 className="text-[64px] font-bold text-white">Welcome to</h1>
-        <h2 className="text-[64px] font-bold text-primary">CLOUD & CRÈME</h2>
-        <p className="mt-2 text-secondary">Your favourite foods delivered fast at your door.</p>
+      <h1 className="text-white">Welcome to</h1>
+      <h2 className="text-primary">CLOUD & CRÈME</h2>
+      <p className="text-secondary">Your favourite foods delivered fast at your door.</p>
       </div>
 
       {/* กล่องที่ 2: Sign-in Section */}
@@ -29,7 +29,6 @@ const Welcome: React.FC = () => {
             <span>Google</span>
           </button>
         </div>
-        
         <button className="w-full py-2 mt-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
           Start with email or phone
         </button>

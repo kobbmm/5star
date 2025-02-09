@@ -1,24 +1,22 @@
-/* filepath: /c:/Users/Topviewpoint/5star/src/app/Style/welcome.css */
-/* welcome.css */
 
 /* กล่องที่ 1: Welcome Section */
 .welcome-section {
-    background-color: #ffffff00; /* กำหนดพื้นหลังของกล่องเป็นสีขาว */
+    background-color: #ffffff00; 
     padding: 1.5rem;
-    position: absolute; /* ใช้ positioning เพื่อจัดตำแหน่ง */
-    left: 182px; /* ตั้งตำแหน่งที่พิกัด x */
-    top: 101px;  /* ตั้งตำแหน่งที่พิกัด y */
+    position: absolute; 
+    left: 182px; 
+    top: 101px; 
     width: 100%;
-    max-width: 30rem; /* กำหนดความกว้างสูงสุดที่ 30rem (ประมาณ 480px) */
+    max-width: 30rem; 
 }
 
 /* กล่องที่ 2: Sign-in Section */
 .sign-in-section {
     background-color: #ffffff;
     padding: 1.5rem;
-    position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
-    left: 769px; /* ตั้งตำแหน่งที่พิกัด x */
-    top: 101px;  /* ตั้งตำแหน่งที่พิกัด y */
+    position: absolute; 
+    left: 769px; 
+    top: 101px; 
     width: 100%;
     max-width: 30rem;
 }
