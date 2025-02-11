@@ -6,6 +6,8 @@ import "./Style/signup.css";
 import "./Style/verification.css";
 import "./Style/password.css";
 
+
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair-display",

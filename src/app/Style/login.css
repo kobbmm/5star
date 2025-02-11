@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;700&display=swap');
-
 :root {
   --background: #f0f0f0; /* ตัวอย่างสีพื้นหลัง */
   --foreground: #333333; /* ตัวอย่างสีพื้นหน้า */
@@ -42,14 +41,13 @@
   font-weight: 700;
 }
 
-
-  .login-page {
-    background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
-    background-size: 100% 100%; /* ขยายภาพเต็มพื้นที่ในทั้งแนวนอนและแนวตั้ง */
-    display: flex;
-    align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
-    justify-content: center; /* จัดกึ่งกลางในแนวนอน */
-    min-height: 100vh; /* เพิ่ม min-height เพื่อให้พื้นหลังครอบคลุมหน้า */
+.login-page {
+  background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
+  background-size: 100% 100%; /* ขยายภาพเต็มพื้นที่ในทั้งแนวนอนและแนวตั้ง */
+  display: flex;
+  align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
+  justify-content: center; /* จัดกึ่งกลางในแนวนอน */
+  min-height: 100vh; /* เพิ่ม min-height เพื่อให้พื้นหลังครอบคลุมหน้า */
 }
 
 /* กล่องที่ 1: Welcome Section */
@@ -76,16 +74,16 @@
   max-width: 20rem;
 }
 
-
 /* Input Field */
 .login-input {
+  background-color: #ffffff00;
   width: 100%;
   padding: 7px;
-  border: 1px solid #ffffff00;
+  border: 1px solid #ffffff4d;
   border-radius: 8px;
   outline: none;
 }
 .login-input:focus {
-  border-color: #d8d8d8;
+  border-color: #ffffff;
 }
 

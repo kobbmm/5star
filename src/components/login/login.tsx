@@ -17,7 +17,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-6">
+    <div className="login-page">
+    <div className="flex flex-col items-center justify-center min-h-screen  px-6">
       <div className="flex flex-col items-center justify-center min-h-screen px-6">
         {/* กล่องที่ 1: Welcome Section */}
         <div className="bg-white p-6 text-center w-full max-w-md welcome-section">
@@ -72,7 +73,7 @@ export default function Login() {
           </div>
 
           <button type="submit" 
-          className="flex items-center justify-center gap-2 w-full py-2 border rounded-lg text-white font-bold bg-[#AB3434] hover:bg-[#922B2B] transition mt-4">
+          className="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-white font-bold bg-[#AB3434] hover:bg-[#922B2B] transition mt-4">
             LOGIN
           </button>
         </form>
@@ -86,11 +87,11 @@ export default function Login() {
 
 
 
-        <div className="text-center text-white mt-4">Sign up with</div>
+        <div className="text-center text-white mt-4">-----------Sign up with-----------</div>
 
         <div className="flex items-center gap-3 p-3 rounded-lg">
           {/* ปุ่ม Facebook */}
-          <button className="flex items-center justify-center gap-2 w-full py-1 border rounded-lg text-white font-normal hover:bg-gray-200 transition">
+          <button className="flex items-center justify-center gap-2 w-full py-1 border rounded-lg shadow-lg text-white font-normal hover:bg-gray-200 transition">
           <FaFacebook size={17} />
             <span>Facebook</span>
           </button>
@@ -101,9 +102,9 @@ export default function Login() {
             <span>Google</span>
           </button>
 
-
         </div>
       </div>
+    </div>
     </div>
   );
 }
