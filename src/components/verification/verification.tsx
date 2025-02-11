@@ -23,11 +23,11 @@ export default function VerificationCode() {
 
       {/* กล่องที่ 2: Verification Code Section */}
       <div className="bg-white shadow-lg rounded-xl p-6 mt-6 w-full max-w-md verification-section">
-        <h2 className="text-2xl font-bold text-white text-center">Verification Code</h2>
-        <p className="text-center text-white mt-2">
+        <h2 className="text-white text-32px font-montserrat font-bold text-center">Verification Code</h2>
+        <p className="text-secondary font-normal text-sm mt-4 text-left">
           Please type the verification code sent to 
-          <span className="text-primary font-semibold text-indigo-600"> prelookstudio@gmail.com</span>
-        </p>
+          <span className="text-secondary font-normal text-sm mt-4 text-left"> prelookstudio@gmail.com</span>
+        </p>  
 
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
@@ -50,9 +50,9 @@ export default function VerificationCode() {
           </button>
         </form>
 
-        <p className="text-center text-white mt-4">
+        <p className="text-secondary font-normal text-sm mt-4 text-left">
           I don't receive a code?{" "}
-          <a href="#" className="text-primary font-medium hover:underline">
+          <a href="#" className="text-secondary font-normal text-sm mt-4 text-left hover:underline">
             Please resend
           </a>
         </p>

@@ -4,9 +4,8 @@ import "./Style/welcome.css";
 import "./Style/login.css";
 import "./Style/signup.css";
 import "./Style/verification.css";
-import "./Style/password.css";
-
-
+import "./Style/reset.css";
+import "./Style/registration.css";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],

@@ -10,8 +10,8 @@ const HomePage = () => {
         <li><Link href="/login">Login</Link></li>
         <li><Link href="/signup">Sign Up</Link></li>
         <li><Link href="/verification">Verification Code</Link></li>
-        <li><Link href="/phone-registration">Phone Registration</Link></li>
-        <li><Link href="/reset-password">Reset Password</Link></li>
+        <li><Link href="/reset">Reset Password</Link></li>
+        <li><Link href="/registration">Phone Registration</Link></li>
       </ul>
     </div>
   );
