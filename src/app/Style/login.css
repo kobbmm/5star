@@ -1,59 +1,91 @@
-/* กล่อง Welcome */
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;700&display=swap');
+
+:root {
+  --background: #f0f0f0; /* ตัวอย่างสีพื้นหลัง */
+  --foreground: #333333; /* ตัวอย่างสีพื้นหน้า */
+  --white: #FFFFFF;
+  --primary: #AB3434;
+  --secondary: #979797;
+}
+
+/* กำหนดขนาดตัวอักษรเพิ่มเติม */
+.text-100px {
+  font-size: 100px;
+}
+
+.text-64px {
+  font-size: 64px;
+}
+
+.text-32px {
+  font-size: 32px;
+}
+
+/* กำหนดฟอนต์เพิ่มเติม */
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-aboreto {
+  font-family: 'Aboreto', cursive;
+}
+
+.font-thin {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+
+  .login-page {
+    background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
+    background-size: 100% 100%; /* ขยายภาพเต็มพื้นที่ในทั้งแนวนอนและแนวตั้ง */
+    display: flex;
+    align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
+    justify-content: center; /* จัดกึ่งกลางในแนวนอน */
+    min-height: 100vh; /* เพิ่ม min-height เพื่อให้พื้นหลังครอบคลุมหน้า */
+}
+
+/* กล่องที่ 1: Welcome Section */
 .welcome-section {
-  background-color: #ffffff00;
-  border-radius: 1rem;
-  padding: 2rem;
-  position: absolute; /* ใช้ positioning เพื่อจัดตำแหน่ง */
-  left: 182px; /* ตั้งตำแหน่งที่พิกัด x */
-  top: 101px; 
+  background-color: #ffffff00; 
+  padding: 0.2rem;
+  position: absolute; 
+  left: 182px; 
+  top: 70px; 
+  width: 100%;
+  max-width: 40rem; 
+  z-index: 1; /* ให้อยู่ด้านล่าง */
 }
 
 /* กล่อง Login */
 .login-section {
-  background-color: rgba(0, 0, 0, 0.363);
+  background-color: #ffffff4d;
   padding: 2rem;
   position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
-  left: 769px; /* ตั้งตำแหน่งที่พิกัด x */
-  top: 101px;
+  left: 850px; 
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 100%;
+  max-width: 20rem;
 }
 
-/* ปุ่ม Login */
-.login-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4f46e5;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: background 0.3s ease;
-}
-.login-button:hover {
-  background-color: #4338ca;
-}
 
 /* Input Field */
 .login-input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #d1d5db;
+  padding: 7px;
+  border: 1px solid #ffffff00;
   border-radius: 8px;
   outline: none;
 }
 .login-input:focus {
-  border-color: #4f46e5;
+  border-color: #d8d8d8;
 }
 
-/* ปุ่ม Social */
-.social-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background 0.3s ease;
-}
