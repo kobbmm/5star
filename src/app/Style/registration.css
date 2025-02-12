@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;700&display=swap');
+
+:root {
+  --background: #f0f0f0;
+  --foreground: #333333;
+  --white: #FFFFFF;
+  --primary: #AB3434;
+  --secondary: #979797;
+}
+
+/* ขนาดตัวอักษร */
+.text-100px {
+  font-size: 100px;
+}
+
+.text-64px {
+  font-size: 64px;
+}
+
+.text-32px {
+  font-size: 32px;
+}
+
+/* ฟอนต์ */
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-aboreto {
+  font-family: 'Aboreto', cursive;
+}
+
+.font-thin {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* พื้นหลังหน้า Registration */
+.registration-page {
+  background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* กล่อง Welcome */
+.welcome-section {
+  position: absolute;
+  left: 182px;
+  top: 70px;
+  max-width: 40rem;
+  color: var(--white);
+}
+
+/* กล่อง Registration */
+.registration-section {
+    background-color: #ffffff4d;
+    padding: 2rem;
+    position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
+    left: 850px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    width: 100%;
+    max-width: 20rem;
+}
+
+/* ช่องกรอกข้อมูล */
+.input-field {
+    background-color: #ffffff00;
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ffffff4d;
+    border-radius: 8px;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #ffffff;
+}
+
