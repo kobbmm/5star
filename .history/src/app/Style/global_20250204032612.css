@@ -201,7 +201,7 @@ input[type="date"] {
 
 /* Improved Calendar Styles */
 .date-picker-container {
-  @apply flex items-center justify-center gap-4 mb-8 p-4 bg-white rounded-lg shadow-md;
+  @apply flex items-center justify-center gap-6 mb-8 p-4 bg-white rounded-xl shadow-md;
   max-width: 600px;
   margin: 0 auto 2rem;
 }
@@ -211,99 +211,39 @@ input[type="date"] {
 }
 
 .date-picker {
-  @apply px-4 py-2 rounded-lg border-2 border-gray-200 text-base;
+  @apply px-6 py-3 rounded-lg border-2 border-gray-200 text-lg font-medium;
   min-width: 200px;
-  background: white;
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  transition: all 0.2s ease;
+}
+
+.date-picker:hover:not(:disabled) {
+  @apply border-blue-400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .date-picker:focus {
   @apply outline-none border-blue-500 ring-2 ring-blue-200;
 }
 
-.nav-button {
-  @apply px-4 py-2 rounded-lg font-medium;
-  @apply bg-white border border-gray-200;
-  @apply transition-all duration-200;
-  @apply flex items-center gap-2;
-}
-
-.nav-button:hover:not(:disabled) {
-  @apply bg-gray-50 border-gray-300;
-}
-
-.nav-button:disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.date-picker-container {
-  @apply flex items-center justify-center gap-4 mb-8 p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg;
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  border: 1px solid rgba(229, 231, 235, 0.5);
-}
-
-.calendar-wrapper {
-  @apply relative flex-1 max-w-xs;
-}
-
-.date-picker {
-  @apply w-full px-5 py-3.5 rounded-xl text-base font-medium;
-  @apply border-2 border-gray-200;
-  @apply bg-gradient-to-b from-white to-gray-50;
-  @apply transition-all duration-200 ease-in-out;
-  @apply text-gray-700 tracking-wide;
-  font-family: 'Inter', -apple-system, sans-serif;
-  min-width: 220px;
-}
-
-.date-picker::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.date-picker:hover:not(:disabled) {
-  @apply border-blue-400/50 shadow-md shadow-blue-100;
-  transform: translateY(-1px);
-}
-
-.date-picker:focus {
-  @apply outline-none border-blue-500 ring-4 ring-blue-100;
-}
-
 .date-picker:disabled {
-  @apply bg-gray-100/80 cursor-not-allowed;
+  @apply bg-gray-100 cursor-not-allowed opacity-70;
 }
 
 .calendar-icon {
-  @apply absolute right-4 top-1/2 -translate-y-1/2;
-  @apply text-gray-400 pointer-events-none text-xl;
-  @apply transition-transform duration-200;
-}
-
-.calendar-wrapper:hover .calendar-icon {
-  @apply text-blue-500 scale-110;
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none;
+  font-size: 1.2rem;
 }
 
 .nav-button {
-  @apply flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium;
-  @apply bg-gradient-to-b from-white to-gray-50;
-  @apply border border-gray-200 shadow-sm;
-  @apply transition-all duration-200 hover:shadow-md;
-  @apply text-gray-700;
+  @apply flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-all;
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  border: 1px solid #e2e8f0;
 }
 
 .nav-button:hover:not(:disabled) {
-  @apply border-blue-400/50 bg-blue-50;
+  @apply bg-blue-50 border-blue-200;
   transform: translateY(-1px);
-}
-
-.nav-button:active:not(:disabled) {
-  transform: translateY(0px);
 }
 
 .nav-button:disabled {
@@ -311,19 +251,11 @@ input[type="date"] {
 }
 
 .nav-arrow {
-  @apply text-lg font-bold transition-transform duration-200;
-}
-
-.nav-button:hover .nav-arrow {
-  transform: translateX(-2px);
-}
-
-.nav-button:last-child:hover .nav-arrow {
-  transform: translateX(2px);
+  @apply text-lg font-bold;
 }
 
 .nav-text {
-  @apply text-sm font-semibold;
+  @apply text-sm;
 }
 
 .chart-container {
@@ -362,128 +294,3 @@ input[type="date"] {
   @apply p-4 bg-red-50 text-red-600 rounded-lg text-center max-w-md mx-auto;
   border: 1px solid rgba(220, 38, 38, 0.1);
 }
-
-/* Empty State Styles */
-.empty-state {
-  @apply flex flex-col items-center justify-center p-12 bg-white rounded-2xl shadow-lg;
-  @apply min-h-[400px] max-w-[600px] mx-auto text-center;
-  animation: fadeIn 0.5s ease-out;
-}
-
-.empty-state-icon {
-  @apply text-6xl mb-6;
-  animation: bounce 2s infinite;
-}
-
-.empty-state-title {
-  @apply text-2xl font-bold text-gray-800 mb-3;
-  font-family: 'Inter', sans-serif;
-}
-
-.empty-state-description {
-  @apply text-gray-600 text-lg max-w-md leading-relaxed;
-  font-family: 'Inter', sans-serif;
-}
-
-/* คำอธิบายใต้ Chart */
-.chart-description {
-  @apply text-sm text-gray-500 mt-4 text-center;
-  font-family: 'Inter', sans-serif;
-}
-
-/* ปรับแต่ง Title */
-.pie-chart-title {
-  @apply text-3xl font-bold mb-8 text-gray-800;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(to right, #1a365d, #2563eb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* ปรับแต่ง Loading Message */
-.loading-text {
-  @apply text-lg text-gray-600 font-medium mt-4;
-  font-family: 'Inter', sans-serif;
-}
-
-/* สไตล์สำหรับ Error Message */
-.error-message {
-  @apply bg-red-50 text-red-600 p-6 rounded-xl shadow-md;
-  @apply flex flex-col items-center gap-4 max-w-lg mx-auto mt-8;
-}
-
-.error-message-icon {
-  @apply text-4xl;
-}
-
-.error-message-title {
-  @apply text-xl font-semibold;
-  font-family: 'Inter', sans-serif;
-}
-
-.error-message-description {
-  @apply text-red-500 text-center;
-  font-family: 'Inter', sans-serif;
-}
-
-/* ...existing code... */
-
-.chart-grid {
-  @apply max-w-6xl mx-auto px-4;
-}
-
-.date-picker-container {
-  @apply flex items-center justify-center gap-4 mb-8;
-  @apply bg-white rounded-lg shadow-sm p-4;
-}
-
-.nav-button {
-  @apply px-4 py-2 rounded-lg text-gray-700;
-  @apply border border-gray-200 bg-white;
-  @apply flex items-center gap-2;
-  @apply transition-all duration-200;
-}
-
-.nav-button:hover:not(:disabled) {
-  @apply bg-gray-50 border-gray-300;
-}
-
-.nav-button:disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.calendar-wrapper {
-  @apply relative min-w-[200px];
-}
-
-.date-picker {
-  @apply w-full px-4 py-2 rounded-lg;
-  @apply border border-gray-200;
-  @apply text-gray-700;
-}
-
-.calendar-icon {
-  @apply absolute right-3 top-1/2 -translate-y-1/2;
-  @apply text-gray-400 pointer-events-none;
-}
-
-.error-message {
-  @apply flex items-center gap-2 p-4;
-  @apply bg-red-50 text-red-600 rounded-lg;
-  @apply text-center max-w-md mx-auto;
-}
-
-.error-icon {
-  @apply text-xl;
-}
-
-/* ...rest of existing styles... */
