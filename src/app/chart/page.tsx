@@ -68,7 +68,7 @@ const ChartPage: React.FC = () => {
   }, [selectedDate]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-black py-8">
       <div className="chart-grid">
         <div className="date-picker-container">
           <button 
