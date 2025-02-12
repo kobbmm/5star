@@ -1,5 +1,11 @@
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./Style/global.css";
+import "./Style/welcome.css";
+import "./Style/login.css";
+import "./Style/signup.css";
+import "./Style/verification.css";
+import "./Style/reset.css";
+import "./Style/registration.css";
 import "./Style/home.css";
 
 const playfair = Playfair_Display({
@@ -23,4 +29,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

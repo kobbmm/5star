@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;700&display=swap');
+:root {
+  --background: #f0f0f0; /* ตัวอย่างสีพื้นหลัง */
+  --foreground: #333333; /* ตัวอย่างสีพื้นหน้า */
+  --white: #FFFFFF;
+  --primary: #AB3434;
+  --secondary: #979797;
+}
+
+/* กำหนดขนาดตัวอักษรเพิ่มเติม */
+.text-100px {
+  font-size: 100px;
+}
+
+.text-64px {
+  font-size: 64px;
+}
+
+.text-32px {
+  font-size: 32px;
+}
+
+/* กำหนดฟอนต์เพิ่มเติม */
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-aboreto {
+  font-family: 'Aboreto', cursive;
+}
+
+.font-thin {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.reset-page {
+  background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
+  background-size: 100% 100%; /* ขยายภาพเต็มพื้นที่ในทั้งแนวนอนและแนวตั้ง */
+  display: flex;
+  align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
+  justify-content: center; /* จัดกึ่งกลางในแนวนอน */
+  min-height: 100vh; /* เพิ่ม min-height เพื่อให้พื้นหลังครอบคลุมหน้า */
+}
+
+/* กล่องที่ 1: Welcome Section */
+.reset-section {
+  background-color: #ff020200; 
+  padding: 0.2rem;
+  position: absolute; 
+  left: 182px; 
+  top: 70px; 
+  width: 100%;
+  max-width: 40rem; 
+  z-index: 1; /* ให้อยู่ด้านล่าง */
+}
+  
+  /* กล่องที่ 2: Reset Password Section */
+  .reset-password-section {
+    background-color: #ffffff4d;
+    padding: 2rem;
+    position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
+    left: 850px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    width: 100%;
+    max-width: 20rem;
+  }
+
+  .input-field {
+    background-color: #ffffff00;
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ffffff4d;
+    border-radius: 8px;
+    outline: none;
+  }
+  .input-field:focus {
+    border-color: #ffffff;
+  }
