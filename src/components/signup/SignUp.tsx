@@ -35,7 +35,7 @@ export default function Signup() {
 
         {/* กล่องที่ 2: Signup Section */}
         <div className="bg-f4d p-6 mt-6 w-full max-w-md SignUp-section">
-          <h2 className="text-white text-32px font-montserrat font-bold text-center">Sign Up</h2>
+          <h2 className="text-white text-32px font-montserrat font-bold text-center" >Sign Up</h2>
           <form onSubmit={handleSubmit} className="mt-4">
             <div className="mb-4">
               <label htmlFor="fullname" className="block text-white mb-1">
@@ -95,7 +95,7 @@ export default function Signup() {
 
           <p className="text-white font-normal text-sm mt-4 text-center">
             Already have an account?{" "}
-            <a href="#" className="text-primary text-thin hover:underline ml-1">
+            <a href="/login" className="text-primary text-thin hover:underline ml-1">
               Login
             </a>
           </p>
