@@ -1,4 +1,5 @@
 import { Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./Style/global.css";
 import "./Style/welcome.css";
 import "./Style/login.css";
