@@ -39,40 +39,16 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
 
   // Add error boundary
   if (isLoading) {
-    return <Loading />;
+    return <div className="loading-spinner">Loading...</div>;
   }
 
   if (!Array.isArray(data) || data.length === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">📊</div>
-        <h3 className="empty-state-title">ยังไม่มีข้อมูล</h3>
-        <p className="empty-state-description">
-          ยังไม่มีการประเมินความพึงพอใจในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่พบข้อมูลสำหรับวันที่เลือก</div>;
   }
 
   const total = data.reduce((sum, item) => sum + item.count, 0);
   if (total === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">⭐</div>
-        <h3 className="empty-state-title">ยังไม่มีรีวิว</h3>
-        <p className="empty-state-description">
-          ยังไม่มีการรีวิวในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-      </div>
-    );
+    return <div className="no-data">ไม่มีรีวิวในวันที่เลือก</div>;
   }
 
   const chartData = {
@@ -110,7 +86,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
           label: function(context: any) {
             const label = context.label || '';
             const value = context.raw || 0;
-            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} ความคิดเห็น)`;
+            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} reviews)`;
           }
         }
       },
@@ -134,11 +110,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     <div className="PieChart">
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       <h2 className="pie-chart-title">
-        การประเมินความพึงพอใจ {new Date(selectedDate).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
+        Reviews for {new Date(selectedDate).toLocaleDateString()}
       </h2>
       <div className="Pie-chart-container">
         <div className="label">
@@ -151,7 +123,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
               <span className="legend-label">
                 {`${item.rating} ดาว (${item.percentage.toFixed(1)}%)`}
                 <div className="legend-count">
-                  จำนวน: {item.count} ความคิดเห็น
+                  Reviews: {item.count}
                 </div>
               </span>
             </div>

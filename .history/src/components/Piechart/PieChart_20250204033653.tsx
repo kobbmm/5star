@@ -46,9 +46,9 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     return (
       <div className="empty-state">
         <div className="empty-state-icon">📊</div>
-        <h3 className="empty-state-title">ยังไม่มีข้อมูล</h3>
+        <h3 className="empty-state-title">ไม่พบข้อมูล</h3>
         <p className="empty-state-description">
-          ยังไม่มีการประเมินความพึงพอใจในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
+          ไม่พบข้อมูลรีวิวสำหรับวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -110,7 +110,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
           label: function(context: any) {
             const label = context.label || '';
             const value = context.raw || 0;
-            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} ความคิดเห็น)`;
+            return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} reviews)`;
           }
         }
       },
@@ -134,11 +134,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     <div className="PieChart">
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       <h2 className="pie-chart-title">
-        การประเมินความพึงพอใจ {new Date(selectedDate).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
+        Reviews for {new Date(selectedDate).toLocaleDateString()}
       </h2>
       <div className="Pie-chart-container">
         <div className="label">
@@ -151,7 +147,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
               <span className="legend-label">
                 {`${item.rating} ดาว (${item.percentage.toFixed(1)}%)`}
                 <div className="legend-count">
-                  จำนวน: {item.count} ความคิดเห็น
+                  Reviews: {item.count}
                 </div>
               </span>
             </div>
