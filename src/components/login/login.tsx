@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from 'next/link';
 import { FaFacebook } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/login.css"; // นำเข้าไฟล์ CSS
@@ -79,14 +80,12 @@ export default function Login() {
         </form>
 
         <p className="text-white font-normal text-sm mt-4 text-center">
-          Don't have an account?{" "}
-          <a href="#" className=" text-primary text-thin hover:underline ml-1">
+          Don't have an account?
+          <Link href="/signup" className=" text-primary text-thin hover:underline ml-1">
             Sign Up
-          </a>
+          </Link>
         </p>
-
-
-
+        
         <div className="text-center text-white mt-4">-----------Sign up with-----------</div>
 
         <div className="flex items-center gap-3 p-3 rounded-lg">

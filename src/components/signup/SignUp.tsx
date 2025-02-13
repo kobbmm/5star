@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from "react";
 import { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
@@ -94,11 +95,9 @@ export default function Signup() {
           </form>
 
           <p className="text-white font-normal text-sm mt-4 text-center">
-            Already have an account?{" "}
-            <a href="#" className="text-primary text-thin hover:underline ml-1">
-              Login
-            </a>
-          </p>
+          Already have an account? 
+          <Link href="/login" className="text-primary font-normal hover:underline ml-1">Login</Link>
+        </p>
 
           <div className="text-center text-white mt-4">-----------Sign up with-----------</div>
 

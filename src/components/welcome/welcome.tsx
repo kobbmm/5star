@@ -1,4 +1,5 @@
 import React from "react";
+import Link from 'next/link';
 import { FaFacebook } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/welcome.css"; 
@@ -13,7 +14,8 @@ const Welcome: React.FC = () => {
           <h2 className="text-primary text-[64px] font-aboreto font-normal text-left">CLOUD & CRÈME</h2>
           <p className="text-secondary text-[24px] font-montserrat font-normal text-left">Your favourite foods delivered fast at your door.</p>
         </div>
-        </div>
+      </div>
+
       {/* กล่องที่ 2: Sign-in Section */}
       <div className="bg-white p-6 mt-6 w-full max-w-md sign-in-section">
         <p className="text-white text-32px font-montserrat font-bold text-center">Sign in with</p>
@@ -40,7 +42,7 @@ const Welcome: React.FC = () => {
         {/* ข้อความ Already have an account? */}
         <p className="text-white font-normal text-sm mt-4 text-center">
           Already have an account? 
-          <a href="#" className="text-primary font-normal hover:underline ml-1">Sign in</a>
+          <Link href="/login" className="text-primary font-normal hover:underline ml-1">Login</Link>
         </p>
       </div>
     </div>
