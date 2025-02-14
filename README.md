@@ -26,10 +26,6 @@ npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet 
 # ติดตั้งสำหรับ Frontend (Client)
 npm install axios react-query next-auth/react react-toastify
 
-# ถ้าใช้ Tailwind
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-
 npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet morgan dayjs uuid
 
 npm install bcryptjs
