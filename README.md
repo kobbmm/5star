@@ -47,6 +47,8 @@ npm install cookie cors zod helmet morgan axios
 # Type definitions
 npm install --save-dev @types/bcryptjs
 
+npm install nodemailer
+
 # Email
 npm install nodemailer resend
 
