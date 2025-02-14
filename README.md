@@ -25,6 +25,16 @@ npm install @prisma/client chart.js react-chartjs-2
 
 npm install framer-motion
 
+# ติดตั้งสำหรับ Backend (API)
+npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet morgan
+
+# ติดตั้งสำหรับ Frontend (Client)
+npm install axios react-query next-auth/react react-toastify
+
+# ถ้าใช้ Tailwind
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
 
 
 
