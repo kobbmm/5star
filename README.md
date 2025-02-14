@@ -23,8 +23,7 @@ npm install framer-motion
 # ติดตั้งสำหรับ Backend (API)
 npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet morgan
 
-# ติดตั้งสำหรับ Frontend (Client)
-npm install axios react-query next-auth/react react-toastify
+npm install axios
 
 npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet morgan dayjs uuid
 
