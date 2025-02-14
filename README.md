@@ -30,6 +30,8 @@ npm install axios react-query next-auth/react react-toastify
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 
+npm install next-auth bcrypt jsonwebtoken cookie cors @prisma/client zod helmet morgan dayjs uuid
+
 ```
 
 
