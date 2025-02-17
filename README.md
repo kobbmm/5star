@@ -33,6 +33,9 @@ npm install --save-dev @types/bcryptjs
 
 npm install nodemailer
 
+npm install resend
+
+
 
 
 ```
