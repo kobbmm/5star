@@ -16,6 +16,9 @@ export default {
         white: "#FFFFFF",
         primary: "#AB3434",
         secondary: "#979797",
+
+
+        RedPrime:"#B91C1C",
       },
     },
   },

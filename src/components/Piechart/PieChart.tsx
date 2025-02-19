@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { ChartDataItem } from "@/types";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,8 +27,15 @@ interface PieChartProps {
   selectedDate: string;
 }
 
+
+
+
+
 const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) => {
   const chartRef = useRef<any>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipData, setTooltipData] = useState(null);
+
 
   useEffect(() => {
     // Cleanup on unmount
@@ -134,7 +143,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     <div className="PieChart">
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       <h2 className="pie-chart-title">
-        การประเมินความพึงพอใจ {new Date(selectedDate).toLocaleDateString('th-TH', {
+         {new Date(selectedDate).toLocaleDateString('th-TH', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
