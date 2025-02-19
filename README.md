@@ -54,7 +54,8 @@ npm install nodemailer resend
 
 npm install resend
 
-npm install mysql2
+npm install prisma --save-dev
+npm install @prisma/client bcryptjs jsonwebtoken resend dotenv
 
 
 
