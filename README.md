@@ -35,6 +35,9 @@ npm install nodemailer
 
 npm install resend
 
+npm install mysql2
+
+
 
 
 
