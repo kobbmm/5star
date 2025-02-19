@@ -52,22 +52,16 @@ npm install nodemailer
 # Email
 npm install nodemailer resend
 
-# Environment Variables
-npm install dotenv
+npm install resend
+
+npm install mysql2
+
+
+
+
+
 ```
 
-## วิธีใช้งาน
-
-```bash
-# รัน development server
-npm run dev
-
-# สร้าง production build
-npm run build
-
-# รัน production server
-npm start
-```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
