@@ -29,7 +29,7 @@ const Contact = () => {
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
                     <img src="/images/facebook-logo.png" alt="Facebook" className="w-8 h-8" />
                     </a>
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/kobbmm/5star" target="_blank" rel="noopener noreferrer">
                     <img src="/images/github-logo.png" alt="GitHub" className="w-8 h-8" />
                     </a>
                 </div>
