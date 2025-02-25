@@ -1,12 +1,13 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ตัวอย่างการกำหนดโมเดล
 model Review {
   id        Int      @id @default(autoincrement())
   date      DateTime
@@ -16,4 +17,12 @@ model Review {
   createdAt DateTime @default(now())
 }
 
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  phone       String
+  passwordHash String
+  isVerified  Boolean
+  createdAt   DateTime @default(now())
+}
 

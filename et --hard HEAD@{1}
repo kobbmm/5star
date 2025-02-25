@@ -1,0 +1,23 @@
+[33mc2c45bd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msignin[m[33m, [m[1;31morigin/signin[m[33m)[m HEAD@{0}: commit (merge): เชื่อมหน้า
+[33m7dc73f0[m HEAD@{1}: commit: เชื่อมหน้า
+[33m53f1c37[m HEAD@{2}: checkout: moving from master to signin
+[33md84511b[m[33m ([m[1;31morigin/new-Homepage[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{3}: checkout: moving from signin to master
+[33m53f1c37[m HEAD@{4}: commit: อัพเดด
+[33mf4c4c96[m HEAD@{5}: commit: อัพเดด
+[33m9815593[m HEAD@{6}: commit: อัพเดด
+[33me20ebf6[m HEAD@{7}: commit: อัพเดด
+[33m1b56a9d[m HEAD@{8}: commit: เสร็จสมบูรณ์หนึ่งหน้า
+[33m240c315[m HEAD@{9}: commit: css
+[33mfd3fe49[m HEAD@{10}: commit: เพิ่มไฟล์ใหม่
+[33m7aa9f35[m HEAD@{11}: commit: อัพเดด
+[33m99acb4a[m HEAD@{12}: commit: เพิ่มไฟล์
+[33m1736606[m HEAD@{13}: commit: อัพเดด
+[33m5cad65a[m HEAD@{14}: commit: เพิ่มฟีเจอร์ใหม่ [อธิบายงานของคุณ]
+[33mecfc289[m HEAD@{15}: commit: แก้page
+[33m2eb9e50[m HEAD@{16}: commit: เพิ่มไ
+[33m8610848[m HEAD@{17}: commit: ลบไฟล์ที่ไม่เกียวข้อง
+[33m9685da2[m HEAD@{18}: commit: ะเพิ่ม
+[33m58c72f9[m HEAD@{19}: commit: เพิ่มไฟล์ Up
+[33mdeeb1dd[m HEAD@{20}: commit: แก้ไข login.tsx และเพิ่มไฟล์ SignUp.tsx
+[33md84511b[m[33m ([m[1;31morigin/new-Homepage[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{21}: checkout: moving from master to signin
+[33md84511b[m[33m ([m[1;31morigin/new-Homepage[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{22}: clone: from https://github.com/kobbmm/5star.git
