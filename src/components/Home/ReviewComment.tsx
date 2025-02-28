@@ -1,8 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 
-const reviews = [
+interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  userName: string;
+  date: string;
+}
+
+// ข้อมูลตัวอย่างสำหรับการสรุปรีวิว
+const reviewSummary = [
   { rating: 5, percentage: 86 },
   { rating: 4, percentage: 25 },
   { rating: 3, percentage: 10 },
@@ -10,26 +19,72 @@ const reviews = [
   { rating: 1, percentage: 2 },
 ];
 
-const comments = [
-  { user: "Alice", text: "Great service! Highly recommended.", rating: 5 },
-  { user: "Bob", text: "The food was delicious and fresh!", rating: 4 },
-  { user: "Charlie", text: "Nice ambiance and friendly staff.", rating: 5 },
-  { user: "Daisy", text: "Loved the desserts, will come back for more!", rating: 4 },
-  { user: "Eve", text: "Fast delivery and tasty dishes!", rating: 5 },
-  { user: "Ai", text: "I like food!", rating: 5 },
-  { user: "Butter", text: "The service staff are very lovely.", rating: 5 },
-  { user: "Liam Anderson", text: "The menu is a bit too creative. I'd like to have a seasonal menu. Enjoy", rating: 3 },
-];
-
 const ReviewComment = () => {
   const [comment, setComment] = useState("");
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [reviewList, setReviewList] = useState<Review[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  // ดึงข้อมูลรีวิว
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch("/api/reviews");
+        if (!response.ok) throw new Error("โหลดข้อมูลล้มเหลว");
+        
+        const data = await response.json();
+        setReviewList(data.data || []);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        setError("ไม่สามารถโหลดข้อมูลรีวิวได้");
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  // ส่งรีวิวใหม่
+  const handleSubmit = async () => {
+    if (!selectedRating) {
+      setError("กรุณาให้คะแนน");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating: selectedRating,
+          comment,
+          userName: "Anonymous"
+        }),
+      });
+
+      if (!response.ok) throw new Error("ส่งรีวิวไม่สำเร็จ");
+      
+      const data = await response.json();
+      setReviewList((prev) => [data.data, ...prev]);
+
+      // รีเซ็ตฟอร์ม
+      setComment("");
+      setSelectedRating(null);
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      setError("ไม่สามารถส่งรีวิวได้");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-6">
-      {/* Main Title */}
       <h2 className="font-[Lancelot] text-[40px] text-black text-center mb-6">Reviews and Ratings</h2>
-      
+
       <div className="flex flex-col lg:flex-row items-center justify-center w-full space-y-6 lg:space-y-0 lg:space-x-6">
         {/* Left Side - Review Summary */}
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-2xl">
@@ -46,15 +101,12 @@ const ReviewComment = () => {
 
           {/* Review Progress */}
           <div>
-            {reviews.map((review) => (
+            {reviewSummary.map((review) => (
               <div key={review.rating} className="flex items-center space-x-2 mb-2">
                 <span className="w-6 text-sm font-medium">{review.rating}</span>
                 <Star className="text-black" size={16} />
                 <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="h-full bg-red-700"
-                    style={{ width: `${review.percentage}%` }}
-                  ></div>
+                  <div className="h-full bg-red-700" style={{ width: `${review.percentage}%` }}></div>
                 </div>
                 <span className="text-sm text-gray-500">{review.percentage}%</span>
               </div>
@@ -68,9 +120,9 @@ const ReviewComment = () => {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`cursor-pointer ${i < selectedRating ? "text-yellow-400" : "text-gray-400"}`}
+                  className={`cursor-pointer ${i < (selectedRating ?? 0) ? "text-yellow-400" : "text-gray-400"}`}
                   size={24}
-                  fill={i < selectedRating ? "currentColor" : "none"}
+                  fill={i < (selectedRating ?? 0) ? "currentColor" : "none"}
                   onClick={() => setSelectedRating(i + 1)}
                 />
               ))}
@@ -87,9 +139,14 @@ const ReviewComment = () => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></textarea>
-            <button className="mt-3 w-full bg-red-700 text-white py-2 rounded-lg font-semibold">
-              Submit
+            <button 
+              className="mt-3 w-full bg-red-700 text-white py-2 rounded-lg font-semibold"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "กำลังส่ง..." : "Submit"}
             </button>
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </div>
         </div>
 
@@ -97,15 +154,15 @@ const ReviewComment = () => {
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-2xl">
           <h3 className="text-lg font-semibold mb-4">Customer Comments</h3>
           <div className="max-h-80 overflow-y-auto space-y-3">
-            {comments.map((c, index) => (
-              <div key={index} className="border-b pb-2">
+            {reviewList.map((review) => (
+              <div key={review.id} className="border-b pb-2">
                 <p className="font-medium flex items-center">
-                  {c.user} {" "}
-                  {[...Array(c.rating)].map((_, i) => (
+                  {review.userName} {" "}
+                  {[...Array(review.rating)].map((_, i) => (
                     <Star key={i} className="text-yellow-400 ml-1" size={16} fill="currentColor" />
                   ))}
                 </p>
-                <p className="text-gray-600">{c.text}</p>
+                <p className="text-gray-600">{review.comment}</p>
               </div>
             ))}
           </div>
