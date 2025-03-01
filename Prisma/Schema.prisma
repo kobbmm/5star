@@ -13,6 +13,7 @@ model Review {
   time      String
   rating    Int
   comment   String?
+  userName  String   @default("Anonymous")
   createdAt DateTime @default(now())
 }
 
