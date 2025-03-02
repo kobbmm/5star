@@ -1,13 +1,12 @@
-import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { CustomPrismaAdapter } from "@/lib/auth-adapter";
 
-export const authOptions = {
-  adapter: PrismaAdapter(prisma),
+export const authOptions: NextAuthOptions = {
+  adapter: CustomPrismaAdapter(),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -28,6 +27,11 @@ export const authOptions = {
 
         if (!user || !user.password) {
           return null;
+        }
+        
+        // ตรวจสอบว่าผู้ใช้ยืนยันอีเมลแล้วหรือไม่
+        if (!user.emailVerified) {
+          throw new Error("email-not-verified");
         }
 
         const isPasswordValid = await bcrypt.compare(
@@ -50,17 +54,30 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID || "",
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-    }),
   ],
   pages: {
     signIn: "/login",
+    error: "/login", // จะใช้สำหรับแสดงข้อผิดพลาดการเข้าสู่ระบบ
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 วัน
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        (session.user as any).id = token.id as string;
+      }
+      return session;
+    }
+  },
+  debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
 };
 

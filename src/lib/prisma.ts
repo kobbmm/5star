@@ -1,16 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 
-// Add prisma to the global type
-declare global {
-  // eslint-disable-next-line no-unused-vars
-  var prisma: PrismaClient | undefined;
-}
+// ในกรณีที่เราใช้ Hot Reloading ในการพัฒนา
+// เราต้องใช้ global object เพื่อเก็บ prisma instance ไว้
+// เพื่อป้องกันการสร้าง connection ใหม่ทุกครั้งที่มีการ reload
 
-// Avoid multiple instances in development
-export const prisma = global.prisma || new PrismaClient();
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ['query', 'error', 'warn'],
+  });
 
 if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
+  globalForPrisma.prisma = prisma;
 }
 
 export default prisma; 

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, KeyboardEvent, useRef } from "react";
 import { Star } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Review {
   id: number;
@@ -20,6 +21,7 @@ const reviewSummary = [
 ];
 
 const ReviewComment = () => {
+  const { data: session } = useSession();
   const [comment, setComment] = useState("");
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [reviewList, setReviewList] = useState<Review[]>([]);
@@ -78,14 +80,17 @@ const ReviewComment = () => {
     setError("");
 
     try {
-      // ส่งข้อมูลไปยัง API โดยตรง - ตัว API จะมีการตรวจสอบ rate limit เอง
+      // ใช้ชื่อผู้ใช้จริงหากล็อกอินแล้ว ถ้าไม่มีให้ใช้ "บุคคลทั่วไป"
+      const userName = session?.user?.name || "บุคคลทั่วไป";
+      
+      // ส่งข้อมูลไปยัง API โดยตรง
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           rating: selectedRating,
           comment,
-          userName: "Anonymous"
+          userName: userName
         }),
       });
 

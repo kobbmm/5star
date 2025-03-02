@@ -21,14 +21,19 @@ model Review {
 model User {
   id            String    @id @default(uuid())
   email         String    @unique
-  password      String    // เก็บรหัสผ่านที่ถูก hash แล้ว
+  password      String?   // อาจเป็น null สำหรับการล็อกอินด้วย OAuth
   name          String?
-  emailVerified Boolean   @default(false) // สำหรับตรวจสอบว่าผู้ใช้ยืนยันอีเมลแล้วหรือยัง
+  image         String?   // เพิ่มฟิลด์รูปภาพผู้ใช้
+  emailVerified Boolean   @default(false) // คงเป็น Boolean ตามโครงสร้างเดิม
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   // ความสัมพันธ์กับ Token (ใช้สำหรับ Reset Password / Email Verification)
   tokens        Token[]
+  
+  // เพิ่มความสัมพันธ์สำหรับ NextAuth
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model Token {
@@ -38,12 +43,49 @@ model Token {
   expiresAt DateTime  // วันและเวลาที่ token หมดอายุ
 
   // ความสัมพันธ์กับผู้ใช้
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
 }
 
 enum TokenType {
   RESET_PASSWORD
   EMAIL_VERIFICATION
+}
+
+// โมเดลเพิ่มเติมสำหรับ NextAuth OAuth
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
