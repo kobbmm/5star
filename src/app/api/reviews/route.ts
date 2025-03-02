@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { rateLimit } from "@/lib/rate-limit";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 const limiter = rateLimit({
   interval: 60 * 1000,

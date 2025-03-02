@@ -2,11 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    // ปิดการตรวจสอบ ESLint ในระหว่างการ build
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // ปิดการตรวจสอบ TypeScript ในระหว่างการ build
     ignoreBuildErrors: true,
   },
   images: {
@@ -50,4 +48,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;

@@ -1,10 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-
-const prisma = new PrismaClient();
+import prisma from "./prisma";
 
 export async function getSession() {
   return await getServerSession(authOptions);

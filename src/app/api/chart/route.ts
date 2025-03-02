@@ -1,19 +1,8 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { ApiResponse, ChartDataItem } from "@/types";
 import { headers } from "next/headers";
 import { rateLimit } from "@/lib/rate-limit";
-
-// Create singleton instance with error handling
-let prisma: PrismaClient;
-
-try {
-  prisma = globalThis.prisma || new PrismaClient();
-  if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-} catch {
-  console.error('Failed to initialize Prisma');
-  prisma = new PrismaClient();
-}
+import prisma from "@/lib/prisma";
 
 // Add cache for 5 minutes
 export const revalidate = 300;
