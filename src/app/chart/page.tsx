@@ -19,14 +19,6 @@ const ChartPage: React.FC = () => {
     setSelectedDate(newDate.toISOString().split('T')[0]);
   };
 
-  const calculateStats = (data: ChartDataItem[]) => {
-    const total = data.reduce((sum, item) => sum + item.count, 0);
-    const avgRating = data.reduce((sum, item) => sum + (item.rating * item.count), 0) / total;
-    const fiveStarPercentage = (data.find(i => i.rating === 5)?.percentage || 0).toFixed(1);
-    
-    return { total, avgRating: avgRating.toFixed(1), fiveStarPercentage };
-  };
-
   useEffect(() => {
     let isSubscribed = true;
 

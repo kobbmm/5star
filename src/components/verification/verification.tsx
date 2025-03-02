@@ -56,7 +56,7 @@ export default function VerificationCode() {
         </form>
 
         <p className="text-secondary font-normal text-sm mt-4 text-left">
-          I don't receive a code?{" "}
+          I don&apos;t receive a code?{" "}
           <button 
             onClick={handleResend}
             className="text-secondary font-normal text-sm mt-4 text-left hover:underline bg-transparent border-none p-0 cursor-pointer"
