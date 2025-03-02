@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/signup.css"; // นำเข้าไฟล์ CSS
+import Link from "next/link";
 
 type FormData = {
   fullname: string;
@@ -95,9 +96,9 @@ export default function Signup() {
 
           <p className="text-white font-normal text-sm mt-4 text-center">
             Already have an account?{" "}
-            <a href="/login" className="text-primary text-thin hover:underline ml-1">
+            <Link href="/login" className="text-primary text-thin hover:underline ml-1">
               Login
-            </a>
+            </Link>
           </p>
 
           <div className="text-center text-white mt-4">-----------Sign up with-----------</div>

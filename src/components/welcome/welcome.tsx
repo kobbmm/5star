@@ -2,6 +2,7 @@ import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/welcome.css"; 
+import Link from "next/link";
 
 const Welcome: React.FC = () => {
   return (
@@ -40,7 +41,7 @@ const Welcome: React.FC = () => {
         {/* ข้อความ Already have an account? */}
         <p className="text-white font-normal text-sm mt-4 text-center">
           Already have an account? 
-          <a href="#" className="text-primary font-normal hover:underline ml-1">Sign in</a>
+          <Link href="/login" className="text-primary font-normal hover:underline ml-1">Sign in</Link>
         </p>
       </div>
     </div>

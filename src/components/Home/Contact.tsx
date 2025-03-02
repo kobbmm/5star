@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const Contact = () => {
     return (
         <div className="w-full bg-[#AB3434] py-8">
@@ -27,10 +29,10 @@ const Contact = () => {
             {/* Socials */}
                 <div className="flex items-center space-x-4 justify-end">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                    <img src="/images/facebook-logo.png" alt="Facebook" className="w-8 h-8" />
+                    <Image src="/images/facebook-logo.png" alt="Facebook" width={32} height={32} className="w-8 h-8" />
                     </a>
                     <a href="https://github.com/kobbmm/5star" target="_blank" rel="noopener noreferrer">
-                    <img src="/images/github-logo.png" alt="GitHub" className="w-8 h-8" />
+                    <Image src="/images/github-logo.png" alt="GitHub" width={32} height={32} className="w-8 h-8" />
                     </a>
                 </div>
             </div>

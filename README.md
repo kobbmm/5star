@@ -141,3 +141,113 @@ npm run build
 # รัน production server
 npm start
 ```
+
+## การแก้ไขปัญหาเพิ่มเติมสำหรับการ Deploy บน Vercel
+
+### ปัญหาด้าน ESLint และ TypeScript
+หากการ build ล้มเหลวเนื่องจากปัญหา ESLint หรือ TypeScript คุณสามารถปรับแต่งไฟล์ `next.config.js` ดังนี้:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true, // ข้ามการตรวจสอบ ESLint ระหว่าง build
+  },
+  typescript: {
+    ignoreBuildErrors: true, // ข้ามการตรวจสอบ TypeScript ระหว่าง build
+  },
+  images: {
+    domains: ['localhost', 'cloudandcreme.vercel.app', 'github.com'],
+  },
+  // ตั้งค่า security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+    ];
+  },
+  // ตั้งค่า redirects
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
+```
+
+### การตั้งค่าไฟล์ .env
+โปรเจค 5star ต้องการตัวแปรสภาพแวดล้อมหลายตัว คุณสามารถใช้ไฟล์ `.env.example` เป็นต้นแบบ ซึ่งควรมีเนื้อหาดังต่อไปนี้:
+
+```
+# Database
+DATABASE_URL="mysql://username:password@host:port/database_name"
+
+# NextAuth
+NEXTAUTH_SECRET="your_nextauth_secret_here"
+NEXTAUTH_URL="http://localhost:3000"
+
+# OAuth Providers
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+FACEBOOK_CLIENT_ID="your_facebook_client_id"
+FACEBOOK_CLIENT_SECRET="your_facebook_client_secret"
+
+# Email
+EMAIL_SERVER_HOST="smtp.example.com"
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER="user@example.com"
+EMAIL_SERVER_PASSWORD="password"
+EMAIL_FROM="noreply@example.com"
+
+# Application
+APP_URL="http://localhost:3000"
+```
+
+สิ่งสำคัญที่ควรทราบเกี่ยวกับ NEXTAUTH_URL:
+1. ในระหว่างการพัฒนา ให้ตั้งค่าเป็น `http://localhost:3000`
+2. สำหรับการ deploy บน Vercel ให้ตั้งค่าเป็น `https://your-project-name.vercel.app`
+3. ถ้าใช้โดเมนหลักให้ตั้งค่าเป็น URL ของโดเมนนั้น
+
+### ปัญหาเกี่ยวกับรูปภาพ
+หากมีปัญหาเกี่ยวกับการแสดงรูปภาพ ให้ตรวจสอบว่าได้เพิ่มโดเมนที่เกี่ยวข้องในส่วน `images.domains` ของไฟล์ `next.config.js` แล้ว
+
+### ปัญหาเกี่ยวกับ Prisma
+หากมีปัญหาเกี่ยวกับ Prisma client หลังจาก deploy ให้ลองใช้คำสั่งต่อไปนี้เพื่อสร้าง Prisma client ใหม่:
+
+```bash
+# สร้าง Prisma client ใหม่
+npx prisma generate
+```
+
+## การอัปเดต Database Schema
+หากมีการเปลี่ยนแปลง schema ของฐานข้อมูล คุณสามารถใช้คำสั่งต่อไปนี้:
+
+```bash
+# อัปเดต schema ของฐานข้อมูล
+npx prisma db push
+
+# หรือหากต้องการสร้าง migration
+npx prisma migrate dev --name [ชื่อการเปลี่ยนแปลง]
+```

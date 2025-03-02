@@ -6,6 +6,7 @@ import "../../app/Style/login.css"; // นำเข้าไฟล์ CSS
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -106,9 +107,9 @@ export default function Login() {
           </div>
 
           <div className="text-right">
-            <a href="/forgot-password" className="block text-white mb-1 text-center">
+            <Link href="/forgot-password" className="block text-white mb-1 text-center">
               Forgot Password?
-            </a>
+            </Link>
           </div>
 
           <button type="submit" 
@@ -120,9 +121,9 @@ export default function Login() {
 
         <p className="text-white font-normal text-sm mt-4 text-center">
           Don't have an account?{" "}
-          <a href="/signup" className=" text-primary text-thin hover:underline ml-1">
+          <Link href="/signup" className="text-primary text-thin hover:underline ml-1">
             Sign Up
-          </a>
+          </Link>
         </p>
 
         <div className="text-center text-white mt-4">-----------Sign up with-----------</div>

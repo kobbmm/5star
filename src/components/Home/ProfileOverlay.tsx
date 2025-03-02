@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ProfileOverlay = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +23,12 @@ const ProfileOverlay = () => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="absolute w-16 h-16 rounded-full border border-black bg-gradient-to-b from-red-500 to-black"></div>
-        <img
-          src="images/User.png"
+        <Image
+          src="/images/User.png"
           alt="User"
-          className="absolute w-8 h-8 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          width={32}
+          height={32}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </div>
 
@@ -35,9 +38,11 @@ const ProfileOverlay = () => {
             {/* Header */}
             <div className="relative w-full h-[116px] rounded-t-2xl bg-gradient-to-b from-red-700 to-black">
                 <div className="absolute w-full h-[20px] bottom-0 bg-black rounded-b-2xl"></div>
-                <img
-                src="images/kavah.jpg"
+                <Image
+                src="/images/kavah.jpg"
                 alt="Profile"
+                width={100}
+                height={100}
                 className="absolute left-1/2 top-[50px] -translate-x-1/2 w-[100px] h-[100px] rounded-full border-2 border-white"
                 />
             </div>
@@ -51,15 +56,15 @@ const ProfileOverlay = () => {
             {/* Contact Info */}
             <div className="mt-4 space-y-2">
                 <div className="flex items-center space-x-2">
-                <img src="images/FacebookF.png" alt="Facebook" className="w-4 h-4" />
+                <Image src="/images/FacebookF.png" alt="Facebook" width={16} height={16} className="w-4 h-4" />
                 <p className="text-sm text-gray-600">Liam Anderson</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                <img src="images/Envelope.png" alt="Email" className="w-4 h-4" />
+                <Image src="/images/Envelope.png" alt="Email" width={16} height={16} className="w-4 h-4" />
                 <p className="text-sm text-gray-600">Liam_Anderson@asd.gu</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                <img src="images/phone.png" alt="Phone" className="w-4 h-4" />
+                <Image src="/images/phone.png" alt="Phone" width={16} height={16} className="w-4 h-4" />
                 <p className="text-sm text-gray-600">076-765-8787</p>
                 </div>
             </div>

@@ -11,6 +11,11 @@ export default function VerificationCode() {
     console.log("Verification Code:", code);
   };
 
+  const handleResend = () => {
+    console.log("Resending verification code");
+    // ตรงนี้จะเป็นโค้ดสำหรับการส่งรหัสยืนยันใหม่
+  };
+
   return (
     <div className="verification-page">
     <div className="flex flex-col items-center justify-center min-h-screen px-6">
@@ -52,9 +57,12 @@ export default function VerificationCode() {
 
         <p className="text-secondary font-normal text-sm mt-4 text-left">
           I don't receive a code?{" "}
-          <a href="#" className="text-secondary font-normal text-sm mt-4 text-left hover:underline">
+          <button 
+            onClick={handleResend}
+            className="text-secondary font-normal text-sm mt-4 text-left hover:underline bg-transparent border-none p-0 cursor-pointer"
+          >
             Please resend
-          </a>
+          </button>
         </p>
       </div>
     </div>
