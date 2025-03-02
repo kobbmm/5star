@@ -35,12 +35,11 @@ export async function GET(req: Request) {
     // Rate limiting check
     try {
       await limiter.check(30, ip);
-    } catch (error) {
+    } catch {
       return NextResponse.json({
         data: null,
         status: 429,
-        message: "Too Many Requests",
-        error: "Please wait a minute before trying again"
+        message: "Too Many Requests - Please wait a minute before trying again"
       }, { 
         status: 429,
         headers: {
@@ -57,8 +56,7 @@ export async function GET(req: Request) {
       return NextResponse.json({
         data: null,
         status: 400,
-        message: "Invalid date format",
-        error: "Date must be YYYY-MM-DD"
+        message: "Invalid date format - Date must be YYYY-MM-DD"
       }, { status: 400 });
     }
 
@@ -108,8 +106,7 @@ export async function GET(req: Request) {
       return NextResponse.json({
         data: null,
         status: 500,
-        message: "Database connection error",
-        error: "Unable to connect to database"
+        message: "Database connection error - Unable to connect to database"
       }, { status: 500 });
     }
     
@@ -117,8 +114,7 @@ export async function GET(req: Request) {
       return NextResponse.json({
         data: null,
         status: 429,
-        message: "Too Many Requests",
-        error: "Please wait a minute before trying again"
+        message: "Too Many Requests - Please wait a minute before trying again"
       }, { 
         status: 429,
         headers: {
@@ -131,9 +127,8 @@ export async function GET(req: Request) {
     const errorResponse: ApiResponse<null> = {
       data: null,
       status: 500,
-      message: "Internal server error",
-      error: process.env.NODE_ENV === 'development' ? 
-        (error instanceof Error ? error.message : "Unknown error") : 
+      message: process.env.NODE_ENV === 'development' ? 
+        (error instanceof Error ? `Internal server error: ${error.message}` : "Unknown error") : 
         "An unexpected error occurred"
     };
     return NextResponse.json(errorResponse, { status: 500 });
