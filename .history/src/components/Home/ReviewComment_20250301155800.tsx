@@ -78,7 +78,16 @@ const ReviewComment = () => {
     setError("");
 
     try {
-      // ส่งข้อมูลไปยัง API โดยตรง - ตัว API จะมีการตรวจสอบ rate limit เอง
+      const limiter = rateLimit({
+        interval: 60 * 1000,
+        uniqueTokenPerInterval: 500,
+      });
+
+      const headersList = await headers();
+      const ip = headersList.get('x-forwarded-for') || 'anonymous';
+      
+      await limiter.check(10, ip);
+
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

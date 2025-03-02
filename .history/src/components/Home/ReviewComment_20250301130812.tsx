@@ -78,7 +78,16 @@ const ReviewComment = () => {
     setError("");
 
     try {
-      // ส่งข้อมูลไปยัง API โดยตรง - ตัว API จะมีการตรวจสอบ rate limit เอง
+      const limiter = rateLimit({
+        interval: 60 * 1000,
+        uniqueTokenPerInterval: 500,
+      });
+
+      const headersList = await headers();
+      const ip = headersList.get('x-forwarded-for') || 'anonymous';
+      
+      await limiter.check(10, ip);
+
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -189,7 +198,7 @@ const ReviewComment = () => {
 
       <div className="flex flex-col lg:flex-row items-center justify-center w-full space-y-6 lg:space-y-0 lg:space-x-6">
         {/* Left Side - Review Summary */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md lg:max-w-3xl">
+        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-2xl">
           {/* Rating Overview */}
           <div className="flex items-center justify-center space-x-4 mb-6">
             <div className="text-4xl font-bold">{reviewStats.averageRating}</div>
@@ -239,60 +248,54 @@ const ReviewComment = () => {
                 />
               ))}
             </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {selectedRating ? "" : "คลิกที่ดาวเพื่อให้คะแนน"}
+            </p>
           </div>
 
-          {/* Comment Textarea */}
-          <div className="mt-4">
+          {/* How are you feeling? */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-2">How are you feeling? <span className="text-xs text-gray-500">(ไม่จำเป็นต้องกรอก)</span></h3>
             <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent resize-none"
-              rows={4}
-              placeholder="Share your experience with us..."
+              className="w-full p-3 border rounded-lg"
+              placeholder="Your input is valuable in helping us improve... (กด Enter เพื่อส่งรีวิว)"
+              rows={3}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               onKeyDown={handleKeyPress}
             ></textarea>
-            {error && <p className="text-red-500 mt-1">{error}</p>}
-            <button
-              className="mt-2 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 w-full"
+            <button 
+              className="mt-3 w-full bg-red-700 text-white py-2 rounded-lg font-semibold"
               onClick={handleSubmit}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Submit Review"}
+              {isSubmitting ? "กำลังส่ง..." : "Submit"}
             </button>
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </div>
         </div>
 
-        {/* Right Side - Review List */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md lg:max-w-3xl h-[600px] overflow-y-auto">
-          <h3 className="text-xl font-semibold mb-4">Latest Reviews</h3>
-          
-          {reviewList.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">
-              <p>No reviews yet. Be the first to share your experience!</p>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {reviewList.map((review) => (
-                <div key={review.id} className="border-b pb-4">
-                  <div className="flex justify-between mb-2">
-                    <span className="font-semibold">{review.userName}</span>
-                    <span className="text-sm text-gray-500">{new Date(review.date).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="text-yellow-400"
-                        size={16}
-                        fill={i < review.rating ? "currentColor" : "none"}
-                      />
+        {/* Right Side - Customer Comments */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-2xl">
+          <h3 className="text-lg font-semibold mb-4">Customer Comments</h3>
+          <div className="max-h-80 overflow-y-auto space-y-3">
+            {reviewList.length > 0 ? (
+              reviewList.map((review) => (
+                <div key={review.id} className="border-b pb-2">
+                  <p className="font-medium flex items-center">
+                    {review.userName} {" "}
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="text-yellow-400 ml-1" size={16} fill="currentColor" />
                     ))}
-                  </div>
-                  <p className="text-gray-700">{review.comment}</p>
+                  </p>
+                  <p className="text-gray-600">{review.comment}</p>
+                  <p className="text-xs text-gray-400 mt-1">{new Date(review.date).toLocaleDateString()}</p>
                 </div>
-              ))}
-            </div>
-          )}
+              ))
+            ) : (
+              <p className="text-gray-500">ยังไม่มีรีวิว</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
