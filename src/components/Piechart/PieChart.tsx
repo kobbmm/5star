@@ -48,7 +48,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
         <div className="empty-state-icon">📊</div>
         <h3 className="empty-state-title">ยังไม่มีข้อมูล</h3>
         <p className="empty-state-description">
-          ยังไม่มีการประเมินความพึงพอใจในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
+          ยังไม่มีการประเมินความพึงพอใจในวันที่ {new Date(selectedDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -63,9 +63,9 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     return (
       <div className="empty-state">
         <div className="empty-state-icon">⭐</div>
-        <h3 className="empty-state-title">ยังไม่มีรีวิว</h3>
+        <h3 className="empty-state-title">There are no reviews yet.</h3>
         <p className="empty-state-description">
-          ยังไม่มีการรีวิวในวันที่ {new Date(selectedDate).toLocaleDateString('th-TH', {
+        No reviews available on {new Date(selectedDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -80,21 +80,20 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     datasets: [{
       data: data.map(item => item.percentage),
       backgroundColor: [
-        "rgba(239, 68, 68, 0.8)",   // Red
-        "rgba(249, 115, 22, 0.8)",  // Orange
-        "rgba(234, 179, 8, 0.8)",   // Yellow
-        "rgba(34, 197, 94, 0.8)",   // Green
-        "rgba(59, 130, 246, 0.8)"   // Blue
+        "hsl(0, 83.80%, 92.70%)",
+        "rgb(250, 154, 154)",
+        "rgb(167, 55, 55)",
+        "rgb(104, 20, 20)",
+        "hsl(0, 57.40%, 9.20%)"
       ],
       hoverBackgroundColor: [
-        "rgba(239, 68, 68, 1)",
-        "rgba(249, 115, 22, 1)",
-        "rgba(234, 179, 8, 1)",
-        "rgba(34, 197, 94, 1)",
-        "rgba(59, 130, 246, 1)"
+        "hsl(0, 83.80%, 92.70%)",
+        "rgb(250, 154, 154)",
+        "rgb(167, 55, 55)",
+        "rgb(104, 20, 20)",
+        "hsl(0, 57.40%, 9.20%)"
       ],
-      borderWidth: 2,
-      borderColor: '#ffffff',
+      borderWidth: 0,
     }],
   };
 
@@ -134,11 +133,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
     <div className="PieChart">
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       <h2 className="pie-chart-title">
-        การประเมินความพึงพอใจ {new Date(selectedDate).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
+        Graph Reviews 
       </h2>
       <div className="Pie-chart-container">
         <div className="label">
@@ -151,7 +146,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
               <span className="legend-label">
                 {`${item.rating} ดาว (${item.percentage.toFixed(1)}%)`}
                 <div className="legend-count">
-                  จำนวน: {item.count} ความคิดเห็น
+                  {item.count} ความคิดเห็น
                 </div>
               </span>
             </div>
