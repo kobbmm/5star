@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import PieChart from "@/components/Piechart/PieChart";
 import Loading from "@/components/Loading/Loading";
 import type { ChartDataItem, ApiResponse } from "@/types";
-import { StatCard } from "@/components/Dashboard/StatCard";
 
 const ChartPage: React.FC = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);

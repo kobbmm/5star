@@ -1,24 +1,24 @@
-import { FC } from "react";
+import Link from "next/link";
 
-const HeaderTop: FC = () => {
+const HeaderTop = () => {
   return (
     <nav className="bg-red-700 text-white fixed w-full h-16 flex items-center justify-between px-6 z-50">
       <div className="text-xl font-bold">Cloud & Crème</div>
       <ul className="flex space-x-6">
         <li>
-          <a href="#home" className="hover:text-yellow-400">Home</a>
+          <Link href="#home" className="hover:text-yellow-400">Home</Link>
         </li>
         <li>
-          <a href="#chef" className="hover:text-yellow-400">Chef</a>
+          <Link href="#chef" className="hover:text-yellow-400">Chef</Link>
         </li>
         <li>
-          <a href="#menu" className="hover:text-yellow-400">Menu</a>
+          <Link href="#menu" className="hover:text-yellow-400">Menu</Link>
         </li>
         <li>
-          <a href="#reviews" className="hover:text-yellow-400">Reviews</a>
+          <Link href="#reviews" className="hover:text-yellow-400">Reviews</Link>
         </li>
         <li>
-          <a href="#contact" className="hover:text-yellow-400">Contact</a>
+          <Link href="#contact" className="hover:text-yellow-400">Contact</Link>
         </li>
       </ul>
     </nav>

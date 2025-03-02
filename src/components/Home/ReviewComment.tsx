@@ -174,7 +174,7 @@ const ReviewComment = () => {
     
     const total = reviewList.length || 1; // ป้องกันการหารด้วย 0
     
-    return [5, 4, 3, 2, 1].map((rating, index) => ({
+    return [5, 4, 3, 2, 1].map((rating) => ({
       rating,
       percentage: Math.round((ratingCounts[rating - 1] / total) * 100) || 0
     }));

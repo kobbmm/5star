@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import Image from 'next/link';
+import React from 'react';
 
 const Headerdetails: React.FC = () => {
     return (

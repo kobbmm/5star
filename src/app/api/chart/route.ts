@@ -10,8 +10,8 @@ let prisma: PrismaClient;
 try {
   prisma = globalThis.prisma || new PrismaClient();
   if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-} catch (error) {
-  console.error('Failed to initialize Prisma:', error);
+} catch {
+  console.error('Failed to initialize Prisma');
   prisma = new PrismaClient();
 }
 
