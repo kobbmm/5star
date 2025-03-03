@@ -11,7 +11,7 @@ const Chefrecommended: React.FC = () => {
       
       {/* Chef's recommended title */}
       <p className="font-[Lato] italic text-[36px] leading-[43px] text-black text-center mb-6">
-        Chef's Recommended
+        Chef&apos;s Recommended
       </p>
       
       {/* Blogs Section */}

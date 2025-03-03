@@ -32,9 +32,15 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 prisma/dev.db
 prisma/migrations/
 
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # vercel
 .vercel
@@ -42,3 +48,14 @@ prisma/migrations/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build output
+.wrangler/
+.turbo/
+
+# logs
+logs/
+*.log
+
+# history
+.history/

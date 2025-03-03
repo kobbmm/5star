@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  time      String
+  rating    Int
+  comment   String?
+  userName  String   @default("Anonymous")
+  createdAt DateTime @default(now())
+}
+
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String?   // อาจเป็น null สำหรับการล็อกอินด้วย OAuth
+  name          String?
+  image         String?   // เพิ่มฟิลด์รูปภาพผู้ใช้
+  emailVerified Boolean   @default(false) // คงเป็น Boolean ตามโครงสร้างเดิม
+  role          Role      @default(USER)  // เพิ่มฟิลด์ role เพื่อกำหนดสิทธิ์ผู้ใช้
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // ความสัมพันธ์กับ Token (ใช้สำหรับ Reset Password / Email Verification)
+  tokens        Token[]
+  
+  // เพิ่มความสัมพันธ์สำหรับ NextAuth
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Token {
+  id        String    @id @default(uuid())
+  type      TokenType // ระบุประเภท token ว่าเป็น reset password หรือ email verification
+  token     String    @unique // รหัส token ที่จะส่งให้ผู้ใช้
+  expiresAt DateTime  // วันและเวลาที่ token หมดอายุ
+
+  // ความสัมพันธ์กับผู้ใช้
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+}
+
+enum TokenType {
+  RESET_PASSWORD
+  EMAIL_VERIFICATION
+}
+
+// เพิ่ม enum สำหรับ role ผู้ใช้
+enum Role {
+  USER
+  ADMIN
+}
+
+// โมเดลเพิ่มเติมสำหรับ NextAuth OAuth
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+

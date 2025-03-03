@@ -4,7 +4,17 @@
   --foreground: #333333; /* ตัวอย่างสีพื้นหน้า */
   --white: #FFFFFF;
   --primary: #AB3434;
+  --primary-hover: #922B2B;
   --secondary: #979797;
+  --primary-light: rgba(171, 52, 52, 0.8);
+  --overlay-bg: rgba(255, 255, 255, 0.5);
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --input-border: rgba(255, 255, 255, 0.4);
+  --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --transition-slow: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-medium: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* กำหนดขนาดตัวอักษรเพิ่มเติม */
@@ -42,48 +52,280 @@
 }
 
 .login-page {
-  background: url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
-  background-size: 100% 100%; /* ขยายภาพเต็มพื้นที่ในทั้งแนวนอนและแนวตั้ง */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://socialmatch.de/blog/wp-content/uploads/2018/11/food-3128914_1280.jpg') no-repeat center center fixed;
+  background-size: cover;
   display: flex;
-  align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
-  justify-content: center; /* จัดกึ่งกลางในแนวนอน */
-  min-height: 100vh; /* เพิ่ม min-height เพื่อให้พื้นหลังครอบคลุมหน้า */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  animation: fadeIn 1s ease-out;
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* กล่องที่ 1: Welcome Section */
 .welcome-section {
-  background-color: #ffffff00; 
+  background-color: transparent;
   padding: 0.2rem;
-  position: absolute; 
-  left: 182px; 
-  top: 70px; 
+  position: relative;
+  left: 0;
+  top: 0;
   width: 100%;
-  max-width: 40rem; 
-  z-index: 1; /* ให้อยู่ด้านล่าง */
+  max-width: 40rem;
+  z-index: 1;
+  animation: slideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  margin: 0 auto;
+}
+
+@keyframes slideInLeft {
+  from { 
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.welcome-section h1,
+.welcome-section h2,
+.welcome-section p {
+  text-shadow: var(--text-shadow);
+  margin-bottom: 0.5rem;
+}
+
+.welcome-section h1 {
+  animation: fadeInUp 0.6s 0.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+  font-size: 50px;
+}
+
+.welcome-section h2 {
+  animation: fadeInUp 0.6s 0.4s cubic-bezier(0.23, 1, 0.32, 1) both;
+  font-size: 50px;
+}
+
+.welcome-section p {
+  animation: fadeInUp 0.6s 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  font-size: 20px;
+}
+
+@keyframes fadeInUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* กล่อง Login */
 .login-section {
-  background-color: #ffffff4d;
+  background-color: var(--overlay-bg);
   padding: 2rem;
-  position: absolute; /* เพิ่มการกำหนดตำแหน่ง */
-  left: 850px; 
-  top: 50%; 
-  transform: translateY(-50%);
+  position: relative;
   width: 100%;
   max-width: 20rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--box-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition-medium);
+  animation: fadeInRight 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  margin: 2rem auto;
+}
+
+@keyframes fadeInRight {
+  from { 
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.login-section:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Input Field */
 .login-input {
-  background-color: #ffffff00;
+  background-color: var(--input-bg);
   width: 100%;
-  padding: 7px;
-  border: 1px solid #ffffff4d;
+  padding: 10px 12px;
+  border: 1px solid var(--input-border);
   border-radius: 8px;
   outline: none;
+  color: white;
+  transition: var(--transition-fast);
+  margin-bottom: 0.5rem;
 }
+
 .login-input:focus {
-  border-color: #ffffff;
+  border-color: var(--white);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* เพิ่มสไตล์ปุ่ม */
+button {
+  transition: var(--transition-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* เพิ่มเอฟเฟกต์ ripple สำหรับปุ่ม */
+button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.8s;
+}
+
+button:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* สไตล์สำหรับลิงก์ */
+a {
+  transition: var(--transition-fast);
+  color: var(--white);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-light);
+  text-decoration: underline;
+}
+
+/* CONTAINER FLEX LAYOUT */
+.login-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+/* แก้ไขสำหรับ responsive design */
+@media (min-width: 1200px) {
+  .login-container {
+    flex-direction: row;
+  }
+  
+  .welcome-section {
+    flex: 1;
+    margin-right: 3rem;
+    text-align: left;
+  }
+  
+  .login-section {
+    flex: 0 0 20rem;
+  }
+  
+  .welcome-section h1, 
+  .welcome-section h2,
+  .welcome-section p {
+    text-align: left;
+  }
+}
+
+@media (max-width: 1199px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .welcome-section {
+    margin-bottom: 2rem;
+    text-align: center;
+    animation: fadeInDown 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .login-section {
+    animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .welcome-section h1, 
+  .welcome-section h2,
+  .welcome-section p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1rem;
+  }
+  
+  .welcome-section h1,
+  .welcome-section h2 {
+    font-size: 40px;
+  }
+  
+  .welcome-section p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section h1,
+  .welcome-section h2 {
+    font-size: 32px;
+  }
+  
+  .welcome-section p {
+    font-size: 16px;
+  }
+  
+  .login-section {
+    padding: 1.5rem;
+  }
+}
+  
+@keyframes fadeInDown {
+  from { 
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartType } from "chart.js";
 import type { ChartDataItem } from "@/types";
+import Loading from "@/components/Loading/Loading";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -26,7 +27,7 @@ interface PieChartProps {
 }
 
 const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) => {
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<ChartJS | null>(null);
 
   useEffect(() => {
     // Cleanup on unmount
@@ -106,7 +107,11 @@ const PieChart: React.FC<PieChartProps> = ({ data, isLoading, selectedDate }) =>
         enabled: true,
         mode: 'nearest',
         callbacks: {
-          label: function(context: any) {
+          label: function(context: {
+            dataIndex: number;
+            label?: string;
+            raw?: number;
+          }) {
             const label = context.label || '';
             const value = context.raw || 0;
             return `${label}: ${value.toFixed(1)}% (${data[context.dataIndex].count} ความคิดเห็น)`;

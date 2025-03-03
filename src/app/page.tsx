@@ -1,5 +1,3 @@
-import { FC } from 'react';
-import Link from 'next/link';
 import HeaderTop from '@/components/Home/HeaderTop';
 import HeaderSection from '@/components/Home/HeaderSection';
 import Headerdetails from '@/components/Home/Headerdetails';
@@ -10,6 +8,8 @@ import AllMenu from '@/components/Home/AllMenu';
 import Contact from '@/components/Home/Contact';
 import ReviewComment from '@/components/Home/ReviewComment';
 import ProfileOverlay from '@/components/Home/ProfileOverlay';
+import AboutUs from '@/components/Home/AboutUs';
+import Reservation from '@/components/Home/Reservation';
 
 function Home() {
   return (
@@ -22,6 +22,10 @@ function Home() {
         <HeaderSection />
       </section>
 
+      <section id="about">
+        <AboutUs />
+      </section>
+
       <section id="chef">
         <Headerdetails />
         <HeaderChef />
@@ -31,6 +35,10 @@ function Home() {
       <section id="menu">
         <TypesDesserts />
         <AllMenu />
+      </section>
+
+      <section id="reservation">
+        <Reservation />
       </section>
 
       <section id="reviews">
