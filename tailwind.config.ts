@@ -17,6 +17,9 @@ export default {
         primary: "#AB3434",
         secondary: "#979797",
       },
+      fontFamily: {
+        aboreto: ["Aboreto", "cursive"],
+        poppins: ["Poppins", "sans-serif"],},
     },
   },
   plugins: [],
