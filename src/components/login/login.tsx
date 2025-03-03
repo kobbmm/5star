@@ -75,6 +75,8 @@ export default function Login() {
       });
       
       if (response?.error) {
+        console.log("Login error:", response.error);
+        
         if (response.error === "email-not-verified") {
           toast.error('กรุณายืนยันอีเมลของคุณก่อนเข้าสู่ระบบ');
           router.push('/verification?email=' + encodeURIComponent(formData.email));
@@ -87,6 +89,12 @@ export default function Login() {
         } else {
           toast.error('ล็อกอินล้มเหลว: ' + response.error);
         }
+        
+        // เพิ่ม toast อีกครั้งในกรณีที่ toast แรกไม่ทำงาน (workaround)
+        setTimeout(() => {
+          toast.error('กรุณาตรวจสอบข้อมูลการเข้าสู่ระบบของคุณอีกครั้ง');
+        }, 100);
+        
         return;
       }
       

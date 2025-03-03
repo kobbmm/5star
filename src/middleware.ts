@@ -8,6 +8,9 @@ const protectedRoutes = ['/dashboard', '/profile', '/settings'];
 // เส้นทางที่อนุญาตให้เข้าถึงได้เฉพาะเมื่อไม่ได้ล็อกอินเท่านั้น
 const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'];
 
+// เส้นทางที่จำกัดให้ Admin เท่านั้น
+const adminRoutes = ['/admin', '/chart', '/api/chart'];
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
@@ -19,6 +22,24 @@ export async function middleware(request: NextRequest) {
   
   // ผู้ใช้ล็อกอินเมื่อมี token
   const isAuthenticated = !!token;
+  
+  // ตรวจสอบว่าผู้ใช้เป็น Admin หรือไม่
+  const isAdmin = token?.role === "ADMIN";
+  
+  // ถ้าผู้ใช้พยายามเข้าถึงเส้นทางที่จำกัดให้ Admin เท่านั้น
+  if (adminRoutes.some(route => pathname.startsWith(route))) {
+    // ถ้าไม่ได้ล็อกอิน
+    if (!isAuthenticated) {
+      const url = new URL('/login', request.url);
+      url.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(url);
+    }
+    
+    // ถ้าล็อกอินแล้วแต่ไม่ใช่ Admin
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
   
   // ถ้าผู้ใช้พยายามเข้าถึงเส้นทางที่ต้องการล็อกอิน แต่ยังไม่ได้ล็อกอิน
   if (protectedRoutes.some(route => pathname.startsWith(route)) && !isAuthenticated) {
@@ -45,6 +66,9 @@ export const config = {
     '/register',
     '/forgot-password',
     '/reset-password',
-    '/verify-email'
+    '/verify-email',
+    '/admin/:path*',
+    '/chart/:path*',
+    '/api/chart/:path*'
   ]
 }; 

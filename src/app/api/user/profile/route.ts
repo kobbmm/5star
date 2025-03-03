@@ -19,11 +19,12 @@ export async function GET() {
     }
 
     // สร้างข้อมูลที่จะส่งกลับ (ไม่รวมข้อมูลที่เป็นความลับ เช่น รหัสผ่าน)
+    // ในที่นี้เรากำหนดให้ image เป็น null เสมอ
     const userData = {
       id: currentUser.id,
       name: currentUser.name,
       email: currentUser.email,
-      image: currentUser.image,
+      image: null, // กำหนดให้ image เป็น null เสมอ
       emailVerified: currentUser.emailVerified,
       createdAt: currentUser.createdAt,
       updatedAt: currentUser.updatedAt

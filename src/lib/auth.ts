@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "./auth-options";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "./prisma";
@@ -34,8 +34,10 @@ export async function getCurrentUser() {
       return null;
     }
     
+    // สร้าง object ใหม่และกำหนดให้ image เป็น null เสมอ
     return {
       ...currentUser,
+      image: null, // กำหนดให้ image เป็น null เสมอ ไม่ว่าจะมีค่าในฐานข้อมูลหรือไม่
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
     };
@@ -139,6 +141,7 @@ export async function registerUser(
       name: fullname,
       password: hashedPassword,
       emailVerified: false, // กำหนดเป็น false ตามที่กำหนดใน schema
+      image: null // กำหนดให้ image เป็น null เสมอสำหรับผู้ใช้ใหม่
     }
   });
   
