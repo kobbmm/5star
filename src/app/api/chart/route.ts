@@ -3,6 +3,8 @@ import { ApiResponse, ChartDataItem } from "@/types";
 import { headers } from "next/headers";
 import { rateLimit } from "@/lib/rate-limit";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 // Add cache for 5 minutes
 export const revalidate = 300;
@@ -14,6 +16,19 @@ const limiter = rateLimit({
 
 export async function GET(req: Request) {
   try {
+    // ตรวจสอบ session ของผู้ใช้
+    const session = await getServerSession(authOptions);
+    
+    // ตรวจสอบสิทธิ์ Admin (สำรองกรณี middleware ไม่ทำงาน)
+    // @ts-ignore - เรา type session ยังไม่ได้อัปเดต
+    if (!session || session.user.role !== "ADMIN") {
+      return NextResponse.json({
+        data: null,
+        status: 403,
+        message: "ไม่มีสิทธิ์เข้าถึงข้อมูล - ต้องเป็น Admin เท่านั้น"
+      }, { status: 403 });
+    }
+    
     // Verify Prisma connection
     await prisma.$connect();
     
@@ -89,9 +104,20 @@ export async function GET(req: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
+    console.log("เกิดข้อผิดพลาด:", error);
+    
+    // แสดงรายละเอียดข้อผิดพลาดเพิ่มเติม
+    if (error instanceof Error) {
+      console.log("Error name:", error.name);
+      console.log("Error message:", error.message);
+      console.log("Error stack:", error.stack);
+    } else {
+      console.log("Unknown error type:", typeof error);
+    }
+    
     // Handle Prisma-specific errors
     if (error instanceof Error && error.message.includes('Prisma')) {
-      console.error('Prisma Error:', error);
+      console.log('Prisma Error:', error);
       return NextResponse.json({
         data: null,
         status: 500,
@@ -112,7 +138,10 @@ export async function GET(req: Request) {
         }
       });
     }
-    console.error('Chart API Error:', error);
+    
+    // ใช้ console.log แทน console.error เพื่อหลีกเลี่ยงปัญหา
+    console.log('Chart API Error (Handled safely):', error ? JSON.stringify(error) : 'null error');
+    
     const errorResponse: ApiResponse<null> = {
       data: null,
       status: 500,

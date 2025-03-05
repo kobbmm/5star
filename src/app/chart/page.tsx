@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import PieChart from "@/components/Piechart/PieChart";
 import Loading from "@/components/Loading/Loading";
 import type { ChartDataItem, ApiResponse } from "@/types";
+import PieChart from "@/components/Piechart/PieChart";
+import type { ApiResponse, ChartDataItem } from "@/types";
+import { useEffect, useState } from "react";
 
 const ChartPage: React.FC = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
@@ -59,16 +60,16 @@ const ChartPage: React.FC = () => {
   }, [selectedDate]);
 
   return (
-    <div className="min-h-screen bg-black py-8">
-      <div className="chart-grid">
-        <div className="date-picker-container">
+    <div className="min-h-screen bg-primary">
+      <div className="chart-grid ">
+        <div className="date-picker-container bg-primary">
           <button 
             onClick={() => changeDate(-1)} 
-            className="nav-button"
+            className="nav-button "
             disabled={loading}
           >
-            <span className="nav-arrow">←</span>
-            <span className="nav-text">วันก่อนหน้า</span>
+            <span className="nav-arrow ">←</span>
+            <span className="nav-text ">วันก่อนหน้า</span>
           </button>
 
           <div className="calendar-wrapper">
