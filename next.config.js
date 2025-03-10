@@ -36,15 +36,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'cloudandcreme.vercel.app',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com', // สำหรับรูปโปรไฟล์ Google
+        hostname: 'lh3.googleusercontent.com',
       }
     ],
   },
