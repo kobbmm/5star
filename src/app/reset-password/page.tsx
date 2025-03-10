@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams?.get("token");
@@ -151,5 +151,23 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
+        <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+          <h1 className="mb-4 text-2xl font-bold text-center text-gray-800">กำลังโหลด...</h1>
+          <div className="flex justify-center my-8">
+            <div className="w-12 h-12 border-4 border-t-[#AB3434] rounded-full animate-spin"></div>
+          </div>
+          <p className="text-center text-gray-600">กำลังตรวจสอบโทเค็นรีเซ็ตรหัสผ่าน...</p>
+        </div>
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 } 

@@ -10,11 +10,13 @@ const nextConfig = {
   
   // Disable static optimization for email-verified page
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client'],
     serverActions: {
       bodySizeLimit: '2mb',
     },
   },
+  
+  // เพิ่ม serverExternalPackages แทน serverComponentsExternalPackages
+  serverExternalPackages: ['@prisma/client'],
   
   // จำเป็นต้องปิดการใช้ Static Export เพราะใช้ API routes
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
