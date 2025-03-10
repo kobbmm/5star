@@ -5,11 +5,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 
-function ResetPasswordContent() {
-  const router = useRouter();
+// แยก component ที่ใช้ useSearchParams ออกมา
+function SearchParamsWrapper({ children }: { children: (token: string | null) => React.ReactNode }) {
   const searchParams = useSearchParams();
   const token = searchParams?.get("token");
-  
+  return <>{children(token)}</>;
+}
+
+// Component ที่ไม่ใช้ useSearchParams โดยตรง
+function ResetPasswordForm({ token }: { token: string | null }) {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -154,6 +159,7 @@ function ResetPasswordContent() {
   );
 }
 
+// หน้าหลักที่ใช้ Suspense ครอบ SearchParamsWrapper
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
@@ -167,7 +173,9 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     }>
-      <ResetPasswordContent />
+      <SearchParamsWrapper>
+        {(token) => <ResetPasswordForm token={token} />}
+      </SearchParamsWrapper>
     </Suspense>
   );
 } 
