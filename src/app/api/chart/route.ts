@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
 // Add cache for 5 minutes
-export const revalidate = 300;
+export const revalidate = 0;
 
 // เพิ่ม dynamic route configuration
 export const dynamic = 'force-dynamic';

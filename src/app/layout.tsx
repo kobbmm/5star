@@ -12,13 +12,21 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+// ย้าย viewport ออกมาเป็น export แยก
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+// ย้าย themeColor ออกมาเป็น export แยก
+export const themeColor = '#B91C1C';
+
 export const metadata = {
   title: 'Cloud & Crème - ร้านขนมหวานระดับพรีเมียม',
   description: 'ร้านขนมหวานสไตล์ฝรั่งเศสคุณภาพสูง เสิร์ฟความอร่อยที่หลากหลายโดยเชฟมืออาชีพ',
   keywords: 'ขนมหวาน, เบเกอรี่, พรีเมียม, ร้านอาหาร, เชฟ, เดสเสิร์ต',
   authors: [{ name: 'Cloud & Crème', url: 'https://cloudandcreme.com' }],
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
-  themeColor: '#B91C1C',
   openGraph: {
     title: 'Cloud & Crème - ร้านขนมหวานระดับพรีเมียม',
     description: 'ร้านขนมหวานสไตล์ฝรั่งเศสคุณภาพสูง เสิร์ฟความอร่อยที่หลากหลายโดยเชฟมืออาชีพ',

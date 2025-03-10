@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../../app/Style/login.css"; // นำเข้าไฟล์ CSS
 import { signIn } from "next-auth/react";
@@ -8,7 +8,8 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function Login() {
+// แยก component ที่ใช้ useSearchParams
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get("callbackUrl") || "/";
@@ -245,5 +246,25 @@ export default function Login() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Export หลักที่ใช้ Suspense
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="login-container">
+        <div className="login-form-container">
+          <div className="login-header">
+            <h1>กำลังโหลด...</h1>
+          </div>
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
