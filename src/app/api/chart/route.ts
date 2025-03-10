@@ -9,6 +9,9 @@ import { authOptions } from "@/lib/auth-options";
 // Add cache for 5 minutes
 export const revalidate = 300;
 
+// เพิ่ม dynamic route configuration
+export const dynamic = 'force-dynamic';
+
 const limiter = rateLimit({
   interval: 60 * 1000, // 1 minute
   uniqueTokenPerInterval: 1000

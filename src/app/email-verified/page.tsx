@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function EmailVerifiedPage() {
+function EmailVerificationContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -102,5 +102,23 @@ export default function EmailVerifiedPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function EmailVerifiedPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
+        <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+          <h1 className="mb-4 text-2xl font-bold text-center text-gray-800">กำลังโหลด...</h1>
+          <div className="flex justify-center my-8">
+            <div className="w-12 h-12 border-4 border-t-[#AB3434] rounded-full animate-spin"></div>
+          </div>
+          <p className="text-center text-gray-600">กำลังตรวจสอบการยืนยันอีเมลของคุณ...</p>
+        </div>
+      </div>
+    }>
+      <EmailVerificationContent />
+    </Suspense>
   );
 } 

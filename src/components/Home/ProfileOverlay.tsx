@@ -23,40 +23,31 @@ const truncateText = (text: string | null, maxLength: number): string => {
 };
 
 // แยกคอมโพเนนต์สำหรับส่วนข้อมูลผู้ใช้ - แยกให้ง่ายต่อการบำรุงรักษา
-const UserDetails = ({ email, emailVerified, id }: { email: string | null, emailVerified: boolean | null, id: string | null }) => (
-  <div className="px-4 space-y-2 mb-3">
-    <div className="flex items-center p-2 bg-gray-50 rounded-lg">
-      <div className="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center mr-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-red-700">
-          <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3v-8.58a3 3 0 00-3-3h-15a3 3 0 00-3 3z" />
-          <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
-        </svg>
-      </div>
-      <p className="text-xs text-gray-600 flex-1 break-words overflow-hidden">
-        {email || "ไม่มีอีเมล"}
+const UserDetails = ({ email, emailVerified, id }: { email: string | null | undefined, emailVerified: boolean | null, id: string | null }) => (
+  <div className="space-y-4 mt-4">
+    <div className="border-b pb-2">
+      <h3 className="text-sm font-semibold text-gray-500">อีเมล</h3>
+      <p className="text-sm text-gray-700">{email || 'ไม่พบอีเมล'}</p>
+    </div>
+    <div className="border-b pb-2">
+      <h3 className="text-sm font-semibold text-gray-500">สถานะการยืนยันอีเมล</h3>
+      <p className="flex items-center text-sm">
+        {emailVerified ? (
+          <>
+            <span className="text-green-600 mr-1">✓</span>
+            <span className="text-green-600">ยืนยันแล้ว</span>
+          </>
+        ) : (
+          <>
+            <span className="text-red-600 mr-1">✗</span>
+            <span className="text-red-600">ยังไม่ได้ยืนยัน</span>
+          </>
+        )}
       </p>
     </div>
-    
-    <div className="flex items-center p-2 bg-gray-50 rounded-lg">
-      <div className="flex-shrink-0 w-7 h-7 bg-green-100 rounded-full flex items-center justify-center mr-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-green-700">
-          <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-        </svg>
-      </div>
-      <p className="text-xs text-gray-600">
-        {emailVerified ? "ยืนยันอีเมลแล้ว" : "ยังไม่ยืนยันอีเมล"}
-      </p>
-    </div>
-    
-    <div className="flex items-center p-2 bg-gray-50 rounded-lg">
-      <div className="flex-shrink-0 w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center mr-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-blue-700">
-          <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
-        </svg>
-      </div>
-      <p className="text-xs text-gray-600">
-        ID: {truncateText(id, 10)}
-      </p>
+    <div className="pb-2">
+      <h3 className="text-sm font-semibold text-gray-500">รหัสผู้ใช้</h3>
+      <p className="text-xs text-gray-500 break-all">{id}</p>
     </div>
   </div>
 );

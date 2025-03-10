@@ -7,6 +7,21 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  
+  // Disable static optimization for email-verified page
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client'],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+  
+  // จำเป็นต้องปิดการใช้ Static Export เพราะใช้ API routes
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  
+  // เพิ่ม distDir เพื่อให้แน่ใจว่า build ถูกที่
+  distDir: '.next',
+  
   images: {
     remotePatterns: [
       {
@@ -61,6 +76,8 @@ const nextConfig = {
       },
     ];
   },
+  // เพิ่ม trailingSlash false เพื่อหลีกเลี่ยงปัญหาการ redirect
+  trailingSlash: false,
 };
 
 module.exports = nextConfig;
