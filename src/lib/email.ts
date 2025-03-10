@@ -1,29 +1,55 @@
 import nodemailer from 'nodemailer';
 import { getAbsoluteUrl } from './utils';
 
-// สร้าง transporter สำหรับ Gmail พร้อมการตั้งค่าเพิ่มเติม
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // ใช้ SSL
-  auth: {
-    user: process.env.GMAIL_USER || '',
-    pass: process.env.GMAIL_APP_PASSWORD || ''
-  },
-  tls: {
-    rejectUnauthorized: false // ยอมรับใบรับรองตัวเองเพื่อทดสอบ (ใช้ในการพัฒนา)
-  },
-  debug: true // เปิดโหมดดีบักเพื่อดูข้อความที่ละเอียดยิ่งขึ้น
-});
-
-// ทดสอบการเชื่อมต่อทันทีเมื่อแอปเริ่มทำงาน
-transporter.verify(function(error: unknown, success: boolean) {
-  if (error) {
-    console.error('SMTP connection error:', error);
-  } else {
-    console.log('SMTP server is ready to take our messages');
+// สร้าง function สำหรับการสร้าง transporter ที่เหมาะสมกับ environment
+const createTransporter = () => {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    console.error('Email credentials are missing - GMAIL_USER or GMAIL_APP_PASSWORD not found in environment variables');
+    return null;
   }
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // ใช้ SSL
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: process.env.NODE_ENV === 'production' // ตรวจสอบใบรับรองเฉพาะใน production
+    },
+    debug: process.env.NODE_ENV !== 'production' // เปิดโหมดดีบักเฉพาะใน development
+  });
+};
+
+// สร้าง transporter
+const transporter = createTransporter();
+
+// ฟังก์ชันสำหรับทดสอบการเชื่อมต่อ
+const verifyTransporter = async () => {
+  if (!transporter) {
+    console.error('Email transporter could not be created');
+    return false;
+  }
+  
+  return new Promise<boolean>((resolve) => {
+    transporter.verify(function(error: unknown, success: boolean) {
+      if (error) {
+        console.error('SMTP connection error:', error);
+        resolve(false);
+      } else {
+        console.log('SMTP server is ready to take our messages');
+        resolve(true);
+      }
+    });
+  });
+};
+
+// ทดสอบการเชื่อมต่อเมื่อเริ่มต้น (แต่ไม่ block การทำงานของแอป)
+verifyTransporter().catch(error => {
+  console.error('Error verifying email transport:', error);
 });
 
 // ฟังก์ชันส่งอีเมลยืนยันตัวตน
@@ -32,6 +58,11 @@ export async function sendVerificationEmail(
   name: string,
   token: string
 ) {
+  if (!transporter) {
+    console.error("Email transporter not available");
+    return { success: false, error: "Email service not available" };
+  }
+
   const verificationUrl = getAbsoluteUrl(`/email-verified?token=${token}`);
   
   try {
@@ -83,6 +114,11 @@ export async function sendPasswordResetEmail(
   name: string,
   token: string
 ) {
+  if (!transporter) {
+    console.error("Email transporter not available");
+    return { success: false, error: "Email service not available" };
+  }
+
   const resetUrl = getAbsoluteUrl(`/reset-password?token=${token}`);
   
   try {

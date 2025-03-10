@@ -32,7 +32,7 @@ function VerificationContent() {
     try {
       setIsResending(true);
       
-      const response = await fetch('/api/auth/send-verification', {
+      const response = await fetch('/api/auth/resend-verification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { resendVerificationEmail } from "@/lib/auth";
 import { headers } from "next/headers";
 import { rateLimit } from "@/lib/rate-limit";
+import { handleApiError, createApiResponse } from "@/lib/api-utils";
+
+// กำหนดให้เป็น dynamic route
+export const dynamic = 'force-dynamic';
 
 // สร้าง rate limiter (อนุญาตให้ส่งคำขอใหม่ได้ 3 ครั้งต่อนาที)
 const limiter = rateLimit({
@@ -19,10 +23,7 @@ export async function POST(req: Request) {
     try {
       await limiter.check(3, ip);
     } catch (error) {
-      return NextResponse.json(
-        { success: false, message: "คุณขอส่งอีเมลยืนยันบ่อยเกินไป กรุณาลองใหม่ในอีก 1 นาที" },
-        { status: 429 }
-      );
+      return createApiResponse(null, "คุณขอส่งอีเมลยืนยันบ่อยเกินไป กรุณาลองใหม่ในอีก 1 นาที", 429);
     }
     
     // รับ email จาก request body
@@ -30,18 +31,26 @@ export async function POST(req: Request) {
     
     // ตรวจสอบว่ามี email ใน request หรือไม่
     if (!email) {
-      return NextResponse.json(
-        { success: false, message: "กรุณาระบุอีเมล" },
-        { status: 400 }
-      );
+      return createApiResponse(null, "กรุณาระบุอีเมล", 400);
     }
     
-    // ส่งอีเมลยืนยันใหม่
-    await resendVerificationEmail(email);
+    // เพิ่ม log เพื่อตรวจสอบการทำงาน
+    console.log(`Attempting to resend verification email to: ${email}`);
     
-    return NextResponse.json(
-      { success: true, message: "ส่งอีเมลยืนยันไปยังที่อยู่อีเมลของคุณแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ" },
-      { status: 200 }
+    // ส่งอีเมลยืนยันใหม่
+    const result = await resendVerificationEmail(email);
+    
+    // เพิ่ม log หลังจากส่งอีเมล
+    console.log(`Resend verification email result:`, result);
+    
+    if (!result.success) {
+      throw new Error(result.error || "ไม่สามารถส่งอีเมลได้");
+    }
+    
+    return createApiResponse(
+      { email },
+      "ส่งอีเมลยืนยันไปยังที่อยู่อีเมลของคุณแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ",
+      200
     );
     
   } catch (error: any) {
@@ -49,22 +58,13 @@ export async function POST(req: Request) {
     
     // ตรวจสอบข้อความข้อผิดพลาดเฉพาะ
     if (error.message === "ไม่พบผู้ใช้ที่มีอีเมลนี้") {
-      return NextResponse.json(
-        { success: false, message: "ไม่พบบัญชีผู้ใช้ที่ใช้อีเมลนี้" },
-        { status: 404 }
-      );
+      return createApiResponse(null, "ไม่พบบัญชีผู้ใช้ที่ใช้อีเมลนี้", 404);
     }
     
     if (error.message === "อีเมลนี้ได้รับการยืนยันแล้ว") {
-      return NextResponse.json(
-        { success: false, message: "อีเมลนี้ได้รับการยืนยันแล้ว คุณสามารถเข้าสู่ระบบได้ทันที" },
-        { status: 400 }
-      );
+      return createApiResponse(null, "อีเมลนี้ได้รับการยืนยันแล้ว คุณสามารถเข้าสู่ระบบได้ทันที", 400);
     }
     
-    return NextResponse.json(
-      { success: false, message: "เกิดข้อผิดพลาดในการส่งอีเมลยืนยัน กรุณาลองอีกครั้งในภายหลัง" },
-      { status: 500 }
-    );
+    return handleApiError(error, "เกิดข้อผิดพลาดในการส่งอีเมลยืนยัน กรุณาลองอีกครั้งในภายหลัง");
   }
 } 
