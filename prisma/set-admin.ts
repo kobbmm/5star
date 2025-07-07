@@ -16,6 +16,7 @@ async function setUserAsAdmin(email: string) {
       console.log(`ไม่พบผู้ใช้ที่มีอีเมล ${email} ในระบบ`);
       return;
     }
+    ั้ง
     
     // อัปเดตผู้ใช้ให้เป็น Admin
     const updatedUser = await prisma.user.update({
